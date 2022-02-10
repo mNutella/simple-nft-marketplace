@@ -2,6 +2,7 @@
 pragma solidity ^0.8.2;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/security/Pausable.sol";
 import "@openzeppelin/contracts/access/AccessControl.sol";
@@ -10,6 +11,7 @@ import "@openzeppelin/contracts/utils/Counters.sol";
 
 contract SimpleNFT is
     ERC721,
+    ERC721Enumerable,
     ERC721URIStorage,
     Pausable,
     AccessControl,
@@ -21,7 +23,7 @@ contract SimpleNFT is
     bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
     Counters.Counter private _tokenIdCounter;
 
-    constructor() ERC721("SimpleNFT", "SMP") {
+    constructor() ERC721("SimpleNFT", "SNF") {
         _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
         _grantRole(PAUSER_ROLE, msg.sender);
         _grantRole(MINTER_ROLE, msg.sender);
@@ -53,7 +55,7 @@ contract SimpleNFT is
         address from,
         address to,
         uint256 tokenId
-    ) internal override whenNotPaused {
+    ) internal override(ERC721, ERC721Enumerable) whenNotPaused {
         super._beforeTokenTransfer(from, to, tokenId);
     }
 
@@ -76,7 +78,7 @@ contract SimpleNFT is
     function supportsInterface(bytes4 interfaceId)
         public
         view
-        override(ERC721, AccessControl)
+        override(ERC721, ERC721Enumerable, AccessControl)
         returns (bool)
     {
         return super.supportsInterface(interfaceId);
