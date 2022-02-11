@@ -30,7 +30,7 @@ contract SimpleNFT is
     }
 
     function _baseURI() internal pure override returns (string memory) {
-        return "http://localhost:5555/static/items/{id}";
+        return "http://localhost:5555/static/items/";
     }
 
     function pause() public onlyRole(PAUSER_ROLE) {
