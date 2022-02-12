@@ -23,6 +23,7 @@ contract SimpleMarketplace is ReentrancyGuard {
         address payable owner;
         uint256 price;
         bool sold;
+        string uri;
     }
 
     mapping(uint256 => MarketplaceItem) private idToMarketplaceItem;
@@ -62,6 +63,8 @@ contract SimpleMarketplace is ReentrancyGuard {
         _items.increment();
         uint256 itemId = _items.current();
 
+        string memory uri = IERC721Metadata(nftContract).tokenURI(tokenId);
+
         idToMarketplaceItem[itemId] = MarketplaceItem(
             itemId,
             nftContract,
@@ -69,7 +72,8 @@ contract SimpleMarketplace is ReentrancyGuard {
             payable(msg.sender),
             payable(address(0)),
             price,
-            false
+            false,
+            uri
         );
 
         IERC721(nftContract).transferFrom(msg.sender, address(this), tokenId);
