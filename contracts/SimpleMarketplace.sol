@@ -132,7 +132,7 @@ contract SimpleMarketplace is ReentrancyGuard {
                     currentId
                 ];
                 items[currentIndex] = currentItem;
-                currentIndex += 1;
+                currentIndex++;
             }
         }
         return items;
@@ -146,7 +146,7 @@ contract SimpleMarketplace is ReentrancyGuard {
 
         for (uint256 i = 0; i < totalItemCount; i++) {
             if (idToMarketplaceItem[i + 1].owner == msg.sender) {
-                itemCount += 1;
+                itemCount++;
             }
         }
 
@@ -158,7 +158,7 @@ contract SimpleMarketplace is ReentrancyGuard {
                     currentId
                 ];
                 items[currentIndex] = currentItem;
-                currentIndex += 1;
+                currentIndex++;
             }
         }
         return items;
@@ -176,7 +176,7 @@ contract SimpleMarketplace is ReentrancyGuard {
 
         for (uint256 i = 0; i < totalItemCount; i++) {
             if (idToMarketplaceItem[i + 1].seller == msg.sender) {
-                itemCount += 1;
+                itemCount++;
             }
         }
 
@@ -189,7 +189,7 @@ contract SimpleMarketplace is ReentrancyGuard {
                     currentId
                 ];
                 items[currentIndex] = currentItem;
-                currentIndex += 1;
+                currentIndex++;
             }
         }
 
