@@ -78,6 +78,8 @@ contract SimpleMarketplace is ReentrancyGuard {
 
         IERC721(nftContract).transferFrom(msg.sender, address(this), tokenId);
 
+        payable(owner).transfer(listingPrice);
+
         emit MarketplaceItemCreated(
             itemId,
             nftContract,
@@ -110,8 +112,6 @@ contract SimpleMarketplace is ReentrancyGuard {
         idToMarketplaceItem[itemId].sold = true;
 
         _soldItems.increment();
-
-        payable(owner).transfer(listingPrice);
     }
 
     // returns all unsold marketplace items
