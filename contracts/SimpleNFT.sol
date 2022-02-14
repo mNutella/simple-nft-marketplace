@@ -23,14 +23,16 @@ contract SimpleNFT is
     bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
     Counters.Counter private _tokenIdCounter;
 
-    constructor() ERC721("SimpleNFT", "SNF") {
+    constructor(string memory _name, string memory _symbol)
+        ERC721(_name, _symbol)
+    {
         _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
         _grantRole(PAUSER_ROLE, msg.sender);
         _grantRole(MINTER_ROLE, msg.sender);
     }
 
     function _baseURI() internal pure override returns (string memory) {
-        return "http://localhost:5555/static/items/";
+        return "https://ipfs.io/ipfs/";
     }
 
     function pause() public onlyRole(PAUSER_ROLE) {

@@ -12,7 +12,7 @@ contract SimpleMarketplace is ReentrancyGuard {
 
     address payable owner;
 
-    uint256 listingPrice = 0.025 ether; // minimum price, change for what you want
+    uint256 constant listingPrice = 0.025 ether;
 
     // interface to marketplace item
     struct MarketplaceItem {
@@ -44,7 +44,7 @@ contract SimpleMarketplace is ReentrancyGuard {
     }
 
     // returns the listing price of the contract
-    function getListingPrice() public view returns (uint256) {
+    function getListingPrice() public pure returns (uint256) {
         return listingPrice;
     }
 
