@@ -23,8 +23,8 @@ contract SimpleNFT is
     bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
     Counters.Counter private _tokenIdCounter;
 
-    constructor(string memory _name, string memory _symbol)
-        ERC721(_name, _symbol)
+    constructor(string memory name_, string memory symbol_)
+        ERC721(name_, symbol_)
     {
         _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
         _grantRole(PAUSER_ROLE, msg.sender);

@@ -4,6 +4,7 @@ pragma solidity >=0.4.22 <0.9.0;
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import "./SimpleNFT.sol";
 
 contract SimpleMarketplace is ReentrancyGuard {
     using Counters for Counters.Counter;
@@ -194,5 +195,24 @@ contract SimpleMarketplace is ReentrancyGuard {
         }
 
         return items;
+    }
+
+    function createSimpleNFT(
+        uint256 price,
+        string memory name,
+        string memory symbol,
+        string memory uri
+    ) public payable nonReentrant {
+        // TODO: add requires
+
+        SimpleNFT newNft = new SimpleNFT(name, symbol);
+        newNft.grantRole(newNft.DEFAULT_ADMIN_ROLE(), msg.sender);
+        newNft.grantRole(newNft.PAUSER_ROLE(), msg.sender);
+        newNft.grantRole(newNft.MINTER_ROLE(), msg.sender);
+
+        newNft.safeMint(msg.sender, uri);
+        newNft.setApprovalForAll(address(this), true);
+
+        createMarketplaceItem(address(newNft), 0, price);
     }
 }
