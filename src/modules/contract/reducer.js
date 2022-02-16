@@ -1,24 +1,28 @@
 export const ADD_CONTRACT_TYPE = "addContract";
 export const REMOVE_CONTRACT_TYPE = "removeContract";
+export const ADD_FACTORY_TYPE = "addFactory";
+export const REMOVE_FACTORY_TYPE = "removeContract";
 
 export function reducer(state, { type, payload }) {
   switch (type) {
-    case ADD_CONTRACT_TYPE:
-      if (payload.name in state) {
-        const contracts = Array.isArray(state[payload.name])
-          ? state[payload.name]
-          : [state[payload.name]];
-
-        return { ...state, [payload.name]: [...contracts, payload.contract] };
-      }
-
-      return { ...state, [payload.name]: payload.contract };
-    case REMOVE_CONTRACT_TYPE:
-      // TODO: doesn't support array
+    case ADD_CONTRACT_TYPE: {
+      return { ...state, contracts: { [payload.name]: payload.contract } };
+    }
+    case REMOVE_CONTRACT_TYPE: {
       const clone = { ...state };
-      delete clone[payload.name];
+      delete clone.contracts[payload.name];
 
       return clone;
+    }
+    case ADD_FACTORY_TYPE: {
+      return { ...state, factories: { [payload.name]: payload.factory } };
+    }
+    case REMOVE_CONTRACT_TYPE: {
+      const clone = { ...state };
+      delete clone.factories[payload.name];
+
+      return clone;
+    }
     default:
       throw new Error("Undefined type");
   }
