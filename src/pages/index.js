@@ -1,27 +1,21 @@
 import Head from "next/head";
-import { useEtherBalance, useEthers } from "@usedapp/core";
-import WalletInfo from "@common/components/WalletInfo";
-import MetaMaskAuthForm from "@common/components/MetaMaskAuthForm";
+import WalletInfo from "@modules/wallet/components/WalletInfo";
+import MetaMaskAuthForm from "@modules/metamask-auth/components/MetaMaskAuthForm";
+import CreateNFTForm from "@modules/nft/components/CreateNFTForm";
 
 export default function Home() {
-  const { account, activateBrowserWallet, deactivate } = useEthers();
-  const etherBalance = useEtherBalance(account);
-
   return (
-    <div className="min-h-screen bg-gray-700">
+    <div className="min-h-screen bg-gray-800 p-2">
       <Head>
         <title>Simple NFT Marketplace</title>
         <meta name="description" content="simple nft marketplace" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className="">
-        {account && <WalletInfo address={account} balance={etherBalance} />}
-        <MetaMaskAuthForm
-          address={account}
-          onActivate={activateBrowserWallet}
-          onDeactivate={deactivate}
-        />
+      <main className="max-w-md mx-auto">
+        <WalletInfo className="mb-2" />
+        <MetaMaskAuthForm />
+        <CreateNFTForm />
       </main>
 
       <footer className=""></footer>
