@@ -8,6 +8,7 @@ import "@openzeppelin/contracts/security/Pausable.sol";
 import "@openzeppelin/contracts/access/AccessControl.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Burnable.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
+import "./Console.sol";
 
 contract SimpleNFT is
     ERC721,
@@ -15,7 +16,8 @@ contract SimpleNFT is
     ERC721URIStorage,
     Pausable,
     AccessControl,
-    ERC721Burnable
+    ERC721Burnable,
+    Console
 {
     using Counters for Counters.Counter;
 
@@ -27,7 +29,7 @@ contract SimpleNFT is
         ERC721(name_, symbol_)
     {
         _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
-        _grantRole(PAUSER_ROLE, msg.sender);
+        _grantRole(PAUSER_ROLE, tx.origin);
         _grantRole(MINTER_ROLE, msg.sender);
     }
 
@@ -75,6 +77,25 @@ contract SimpleNFT is
         returns (string memory)
     {
         return super.tokenURI(tokenId);
+    }
+
+    function approve(address to, uint256 tokenId) public override(ERC721) {
+        address owner = ERC721.ownerOf(tokenId);
+        require(to != owner, "ERC721: approval to current owner");
+
+        require(
+            tx.origin == owner || isApprovedForAll(owner, tx.origin),
+            "ERC721: approve caller is not owner nor approved for all"
+        );
+
+        _approve(to, tokenId);
+    }
+
+    function setApprovalForAll(address operator, bool approved)
+        public
+        override(ERC721)
+    {
+        _setApprovalForAll(tx.origin, operator, approved);
     }
 
     function supportsInterface(bytes4 interfaceId)
