@@ -1,7 +1,7 @@
 import Head from "next/head";
 import WalletInfo from "@modules/wallet/components/WalletInfo";
 import MetaMaskAuthForm from "@modules/metamask-auth/components/MetaMaskAuthForm";
-import CreateNFTForm from "@modules/nft/components/CreateNFTForm";
+import CreateNFTForm from "@modules/marketplace/components/CreateNFTForm";
 
 export default function Home() {
   return (
