@@ -8,7 +8,7 @@ export function initContracts(items) {
 
     const contract = getContract(contractAddress, contractAbi);
 
-    return { ...acc, [contract.address]: contract };
+    return { ...acc, [contractAddress]: contract };
   }, {});
 }
 
