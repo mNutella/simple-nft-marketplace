@@ -21,6 +21,12 @@ const Input = React.forwardRef(({ id, label, error, ...rest }, ref) => {
         ref={ref}
         {...rest}
       />
+      {error && (
+        <p className="text-sm text-red-500">
+          {error?.type === "required" && error.message}
+          {error?.type === "min" && error.message}
+        </p>
+      )}
     </div>
   );
 });
