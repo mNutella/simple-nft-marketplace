@@ -132,6 +132,16 @@ contract SimpleMarketplace is ReentrancyGuard, Console {
         _idToMarketplaceItem[itemId].sold = true;
 
         _soldItems.increment();
+
+        emit MarketplaceItemChanged(
+            itemId,
+            nftContract,
+            tokenId,
+            address(0),
+            msg.sender,
+            price,
+            true
+        );
     }
 
     // returns all unsold marketplace items
