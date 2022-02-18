@@ -1,11 +1,12 @@
 import Image from "next/image";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect } from "react";
 import { useEthers } from "@usedapp/core";
 import { Controller, useForm } from "react-hook-form";
 import Button from "@common/components/Button";
 import Input from "@common/components/Input";
 import { useCreateNFT } from "@modules/marketplace/api/useCreateNFT";
 import { useIPFSApi } from "@modules/ipfs/useIPFSApi";
+import { useImageResize } from "@modules/image-resizer/useImageResize";
 import { getRandomInt } from "@common/utils/math";
 
 const initFormValues = {
@@ -21,6 +22,7 @@ export default function CreateNFTForm() {
   const { inProgress, state, error, setError, createNFT } =
     useCreateNFT(account);
   const { uploadData } = useIPFSApi();
+  const { resize } = useImageResize();
   const {
     control,
     handleSubmit,
@@ -34,14 +36,13 @@ export default function CreateNFTForm() {
       ...initFormValues,
     },
   });
-  const watchFileUrl = watch("fileUrl", undefined);
-  const imageRef = useRef(null).current;
+  const watchThumbnail = watch("thumbnail", undefined);
 
   useEffect(() => {
-    register("fileUrl");
+    register("thumbnail");
   }, [register]);
 
-  useEffect(() => () => URL.revokeObjectURL(watchFileUrl), [watchFileUrl]);
+  useEffect(() => () => URL.revokeObjectURL(watchThumbnail), [watchThumbnail]);
 
   useEffect(() => {
     if (state.status === "Success") {
@@ -52,7 +53,7 @@ export default function CreateNFTForm() {
   if (!account) return null;
 
   const handleFormSubmit = async (data) => {
-    // TODO: add thumbnail
+    const thumbnailHash = await uploadData(data.thumbnail.buffer);
     // const imageHash = await uploadData(Buffer(data.file.reader?.result));
     // const metaDataHash = await uploadData(
     //   JSON.stringify({
@@ -60,7 +61,7 @@ export default function CreateNFTForm() {
     //     origin: imageHash,
     //   })
     // );
-
+    // console.log(thumbnailHash, imageHash, metaDataHash);
     // await createNFT(data.name, data.symbol, metaDataHash, data.price);
   };
 
@@ -130,45 +131,28 @@ export default function CreateNFTForm() {
               accept="image/*"
               helper="File types supported: JPG, PNG, GIF, SVG. Max size: 100 MB"
               error={errors.file}
-              onChange={(e) => {
+              onChange={async (e) => {
                 setError(false);
-                setValue("fileUrl", URL.createObjectURL(e.fileData));
+                const resizedImg = await resize(
+                  new Blob([e.reader?.result]),
+                  228
+                );
+                setValue("thumbnail", resizedImg);
                 onChange(e);
               }}
               {...rest}
             />
           )}
         />
-        {watchFileUrl && (
+        {watchThumbnail?.image && (
           <Image
             className="rounded-lg max-w-10 mb-6 object-cover"
             width={100}
             height={100}
-            ref={imageRef}
-            src={watchFileUrl}
+            src={watchThumbnail.image?.src}
             alt="preview image"
           />
         )}
-        {/* <Controller
-          name="url"
-          control={control}
-          rules={{
-            required: { value: true, message: "This is required input" },
-          }}
-          render={({ field: { onChange, ...rest } }) => (
-            <Input
-              type="url"
-              label="Meta Url"
-              placeholder="MFT"
-              error={errors.url}
-              onChange={(e) => {
-                setError(false);
-                onChange(e);
-              }}
-              {...rest}
-            />
-          )}
-        /> */}
         <Controller
           name="price"
           control={control}

@@ -7,10 +7,10 @@ export function useIPFSApi() {
   const [loading, setLoading] = useState();
   const [error, setError] = useState();
 
-  const uploadData = async (arrayBuffer) => {
+  const uploadData = async (buffer) => {
     try {
       setLoading(true);
-      const result = await ipfsClient.add(arrayBuffer);
+      const result = await ipfsClient.add(buffer);
       setLoading(false);
       return result.path;
     } catch (error) {
