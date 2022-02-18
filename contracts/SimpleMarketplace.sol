@@ -108,7 +108,6 @@ contract SimpleMarketplace is ReentrancyGuard, Console {
     }
 
     // creates the sale of a marketplace item
-    // transfers ownership of the item, as well as funds between parties
     function createMarketplaceSale(address nftContract, uint256 itemId)
         public
         payable
