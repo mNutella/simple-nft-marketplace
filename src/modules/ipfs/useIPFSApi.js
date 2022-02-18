@@ -1,24 +1,16 @@
 import { useState } from "react";
-import { create } from "ipfs-http-client";
-
-// TODO: extract to context
-const ipfsClient = create({
-  host: "ipfs.infura.io",
-  port: "5001",
-  protocol: "https",
-});
+import { useIPFSClient } from "./context";
 
 export function useIPFSApi() {
-  //const ipfsClient = useIPFS();
+  const ipfsClient = useIPFSClient();
 
-  // todo: bind to callbacks
   const [loading, setLoading] = useState();
   const [error, setError] = useState();
 
-  const uploadData = async (data) => {
+  const uploadData = async (arrayBuffer) => {
     try {
       setLoading(true);
-      const result = await ipfsClient.add(data);
+      const result = await ipfsClient.add(arrayBuffer);
       setLoading(false);
       return result.path;
     } catch (error) {
