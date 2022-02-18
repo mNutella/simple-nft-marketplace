@@ -29,7 +29,7 @@ contract SimpleMarketplace is ReentrancyGuard, Console {
         string uri;
     }
 
-    event MarketplaceItemCreated(
+    event MarketplaceItemChanged(
         uint256 indexed itemId,
         address indexed nftContract,
         uint256 indexed tokenId,
@@ -74,7 +74,7 @@ contract SimpleMarketplace is ReentrancyGuard, Console {
         require(price > 0, "Price must be at least 1 wei");
         require(
             msg.value == _listingPrice,
-            "Price must be equal to listing price"
+            "Price must be equal to Listing Price"
         );
 
         _items.increment();
@@ -96,7 +96,7 @@ contract SimpleMarketplace is ReentrancyGuard, Console {
 
         payable(_owner).transfer(_listingPrice);
 
-        emit MarketplaceItemCreated(
+        emit MarketplaceItemChanged(
             itemId,
             nftContract,
             tokenId,
@@ -120,6 +120,10 @@ contract SimpleMarketplace is ReentrancyGuard, Console {
         require(
             msg.value == price,
             "Please submit the asking price in order to complete the purchase"
+        );
+        require(
+            msg.sender != _idToMarketplaceItem[itemId].seller,
+            "You are the seller of this item"
         );
 
         _idToMarketplaceItem[itemId].seller.transfer(msg.value);
