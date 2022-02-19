@@ -8,7 +8,7 @@ import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "./SimpleNFT.sol";
 import "./Console.sol";
 
-contract SimpleMarketplace is ReentrancyGuard, Console {
+contract SimpleMarketplace is ReentrancyGuard {
     using Counters for Counters.Counter;
     Counters.Counter private _items;
     Counters.Counter private _soldItems;
