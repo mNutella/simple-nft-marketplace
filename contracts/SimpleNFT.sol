@@ -17,8 +17,7 @@ contract SimpleNFT is
     ERC721URIStorage,
     Pausable,
     AccessControl,
-    ERC721Burnable,
-    Console
+    ERC721Burnable
 {
     using Counters for Counters.Counter;
 
