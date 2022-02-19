@@ -14,7 +14,7 @@ export default function Home() {
       </Head>
 
       <main className="px-2">
-        <div className="max-w-md mx-auto">
+        <div className="w-full sm:max-w-md pd-2 mx-auto">
           <WalletInfo className="mb-2" />
           <MetaMaskAuthForm />
           <CreateNFTForm />
