@@ -4,10 +4,11 @@ import { useEthers } from "@usedapp/core";
 import { Controller, useForm } from "react-hook-form";
 import Button from "@common/components/Button";
 import Input from "@common/components/Input";
+import { getRandomInt } from "@common/utils/mathHelpers";
 import { useCreateNFT } from "@modules/marketplace/api/useCreateNFT";
 import { useIPFSApi } from "@modules/ipfs/useIPFSApi";
 import { useImageResize } from "@modules/image-resizer/useImageResize";
-import { getRandomInt } from "@common/utils/math";
+import { THUMBNAIL_MAX_SIDE_LENGTH } from "@configs/coreConfig";
 
 const initFormValues = {
   name: "",
@@ -136,7 +137,7 @@ export default function CreateNFTForm() {
                 setError(false);
                 const resizedImg = await resize(
                   new Blob([e.reader?.result]),
-                  228
+                  THUMBNAIL_MAX_SIDE_LENGTH
                 );
                 setValue("thumbnail", resizedImg);
                 onChange(e);
@@ -147,9 +148,10 @@ export default function CreateNFTForm() {
         />
         {watchThumbnail?.image && (
           <Image
-            className="rounded-lg max-w-10 mb-6 object-cover"
+            className="rounded-lg max-w-10 mb-6"
             width={100}
             height={100}
+            objectFit="cover"
             src={watchThumbnail.image?.src}
             alt="preview image"
           />
@@ -176,7 +178,9 @@ export default function CreateNFTForm() {
             />
           )}
         />
-        <Button type="submit" text="Create NFT" loading={inProgress} />
+        <Button type="submit" loading={inProgress}>
+          Create NFT
+        </Button>
       </form>
     </div>
   );
