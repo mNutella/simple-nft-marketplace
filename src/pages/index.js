@@ -2,6 +2,7 @@ import Head from "next/head";
 import WalletInfo from "@modules/wallet/components/WalletInfo";
 import MetaMaskAuthForm from "@modules/metamask-auth/components/MetaMaskAuthForm";
 import CreateNFTForm from "@modules/marketplace/components/CreateNFTForm";
+import Explore from "@modules/marketplace/components/Explore";
 
 export default function Home() {
   return (
@@ -12,10 +13,13 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className="max-w-md mx-auto">
-        <WalletInfo className="mb-2" />
-        <MetaMaskAuthForm />
-        <CreateNFTForm />
+      <main className="px-2">
+        <div className="max-w-md mx-auto">
+          <WalletInfo className="mb-2" />
+          <MetaMaskAuthForm />
+          <CreateNFTForm />
+        </div>
+        <Explore />
       </main>
 
       <footer className=""></footer>

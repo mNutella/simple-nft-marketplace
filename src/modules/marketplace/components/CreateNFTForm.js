@@ -54,19 +54,20 @@ export default function CreateNFTForm() {
 
   const handleFormSubmit = async (data) => {
     const thumbnailHash = await uploadData(data.thumbnail.buffer);
-    // const imageHash = await uploadData(Buffer(data.file.reader?.result));
-    // const metaDataHash = await uploadData(
-    //   JSON.stringify({
-    //     rareness: getRandomInt(100),
-    //     origin: imageHash,
-    //   })
-    // );
-    // console.log(thumbnailHash, imageHash, metaDataHash);
-    // await createNFT(data.name, data.symbol, metaDataHash, data.price);
+    const imageHash = await uploadData(Buffer(data.file.reader?.result));
+    const metaDataHash = await uploadData(
+      JSON.stringify({
+        name: data.name,
+        rareness: getRandomInt(100),
+        origin: imageHash,
+        thumbnail: thumbnailHash,
+      })
+    );
+    await createNFT(data.name, data.symbol, metaDataHash, data.price);
   };
 
   return (
-    <div className="p-4 bg-white rounded-lg border border-gray-200 shadow-md sm:p-6 lg:p-8 dark:bg-gray-800 dark:border-gray-700">
+    <div className="p-4 mb-2 bg-white rounded-lg border border-gray-200 shadow-md sm:p-6 lg:p-8 dark:bg-gray-800 dark:border-gray-700">
       <p className="text-xl text-white text-center font-semibold mb-2">
         Creating NFT
       </p>
