@@ -15,9 +15,9 @@ export function useImageResize() {
 
             const ratio = this.width / this.height;
             canvas.width =
-              this.width > this.height ? maxSideLength : maxSideLength * ratio;
+              this.width > this.height ? maxSideLength * ratio : maxSideLength;
             canvas.height =
-              this.width < this.height ? maxSideLength : maxSideLength / ratio;
+              this.width < this.height ? maxSideLength / ratio : maxSideLength;
 
             let context = canvas.getContext("2d");
 
