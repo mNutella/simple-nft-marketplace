@@ -9,13 +9,12 @@ export default function MetaMaskAuthForm() {
   return (
     <div>
       {!account && (
-        <Button
-          text="Connect with MetaMask"
-          icon={<MetaMaskIcon />}
-          onClick={activateBrowserWallet}
-        />
+        <Button onClick={activateBrowserWallet}>
+          <MetaMaskIcon />
+          <span className="ml-1">Connect with MetaMask</span>
+        </Button>
       )}
-      {account && <Button text="Sign Out 🚪" onClick={deactivate} />}
+      {account && <Button onClick={deactivate}>Sign Out</Button>}
     </div>
   );
 }
