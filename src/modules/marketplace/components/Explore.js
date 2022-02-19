@@ -11,9 +11,9 @@ export default function Explore() {
 
   if (!account) return null;
 
-  const handleBuy = async ({ contractAddress, price }) => {
-    await buyNFT(contractAddress, price);
-  }
+  const handleBuy = async ({ contractAddress, price, itemId }) => {
+    await buyNFT(contractAddress, price, itemId);
+  };
 
   return (
     <div>
