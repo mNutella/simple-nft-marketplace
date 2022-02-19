@@ -14,6 +14,7 @@ export function useCreateNFT() {
   } = useContractFunction(contract, "createMarketplaceNFT", {
     transactionName: "createNFT",
   });
+  // TODO: replace statuses states and useEffect to useTransactionStatuses
   const [inProgress, setInProgress] = useState(false);
   const [error, setError] = useState(false);
 
@@ -30,7 +31,6 @@ export function useCreateNFT() {
 
   const createNFT = async (name, symbol, url, price) => {
     setInProgress(true);
-
     await sendCreateMarketplaceNFT(name, symbol, url, utils.parseEther(price), {
       value: utils.parseEther("0.025"),
     });
