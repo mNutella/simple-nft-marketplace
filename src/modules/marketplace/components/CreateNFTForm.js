@@ -2,7 +2,6 @@ import Image from "next/image";
 import React, { useEffect } from "react";
 import { useEthers } from "@usedapp/core";
 import { Controller, useForm } from "react-hook-form";
-import Button from "@common/components/Button";
 import Input from "@common/components/Input";
 import { getRandomInt } from "@common/utils/mathHelpers";
 import { useCreateNFT } from "@modules/marketplace/api/useCreateNFT";
@@ -18,10 +17,9 @@ const initFormValues = {
   file: undefined,
 };
 
-export default function CreateNFTForm() {
+export default function CreateNFTForm({ id, onProgress }) {
   const { account } = useEthers();
-  const { inProgress, state, error, setError, createNFT } =
-    useCreateNFT(account);
+  const { state, error, setError, createNFT } = useCreateNFT(account);
   const { uploadData } = useIPFSApi();
   const { resize } = useImageResize();
   const {
@@ -48,12 +46,15 @@ export default function CreateNFTForm() {
   useEffect(() => {
     if (state.status === "Success") {
       reset({ ...initFormValues });
+      onProgress && onProgress(false);
     }
-  }, [state.status, reset]);
+  }, [state.status, reset, onProgress]);
 
   if (!account) return null;
 
   const handleFormSubmit = async (data) => {
+    onProgress && onProgress(true);
+
     const thumbnailHash = await uploadData(data.thumbnail.buffer);
     const imageHash = await uploadData(Buffer(data.file.reader?.result));
     const metaDataHash = await uploadData(
@@ -68,17 +69,14 @@ export default function CreateNFTForm() {
   };
 
   return (
-    <div className="p-4 mb-2 bg-white rounded-lg border border-gray-200 shadow-md sm:p-6 lg:p-8 dark:bg-gray-800 dark:border-gray-700">
-      <p className="text-xl text-white text-center font-semibold mb-2">
-        Creating NFT
-      </p>
+    <div>
       {error && (
-        <p className="text-base text-red-500 text-center mb-2">
+        <p className="mb-2 text-center text-base text-red-500">
           Something went wrong, try repeat transaction{" "}
           <span className="text-lg">🥺</span>
         </p>
       )}
-      <form onSubmit={handleSubmit(handleFormSubmit)}>
+      <form id={id} onSubmit={handleSubmit(handleFormSubmit)}>
         <Controller
           name="name"
           control={control}
@@ -148,7 +146,7 @@ export default function CreateNFTForm() {
         />
         {watchThumbnail?.image && (
           <Image
-            className="rounded-lg max-w-10 mb-6"
+            className="max-w-10 mb-6 rounded-lg"
             width={100}
             height={100}
             objectFit="cover"
@@ -178,9 +176,6 @@ export default function CreateNFTForm() {
             />
           )}
         />
-        <Button type="submit" loading={inProgress}>
-          Create NFT
-        </Button>
       </form>
     </div>
   );

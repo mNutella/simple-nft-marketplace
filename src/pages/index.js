@@ -1,8 +1,8 @@
 import Head from "next/head";
 import WalletInfo from "@modules/wallet/components/WalletInfo";
 import MetaMaskAuthForm from "@modules/metamask-auth/components/MetaMaskAuthForm";
-import CreateNFTForm from "@modules/marketplace/components/CreateNFTForm";
 import Explore from "@modules/marketplace/components/Explore";
+import Modal from "@modules/modal/components/Modal";
 
 export default function Home() {
   return (
@@ -14,12 +14,12 @@ export default function Home() {
       </Head>
 
       <main className="container mx-auto">
-        <div className="w-full sm:max-w-md pd-2 mx-auto">
-          <WalletInfo className="mb-2" />
+        <div className="pd-2 mx-auto w-full sm:max-w-md">
+          <WalletInfo className="mb-4" />
           <MetaMaskAuthForm />
-          <CreateNFTForm />
         </div>
         <Explore />
+        <Modal />
       </main>
 
       <footer className=""></footer>
