@@ -3,12 +3,10 @@ module.exports = {
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx}",
     "./src/common/components/**/*.{js,ts,jsx,tsx}",
-    "./node_modules/flowbite/**/*.js",
+    "./src/modules/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
     extend: {},
   },
-  plugins: [
-    require("flowbite/plugin"), // TODO: remove flowbite from the project (something strange with WalletInfo bg colors)
-  ],
+  plugins: [],
 };
