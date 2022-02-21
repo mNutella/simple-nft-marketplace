@@ -21,7 +21,7 @@ const Input = React.forwardRef(
         )}
         {type === "file" ? (
           <FileInput
-            className={`${className} cursor-pointer dark:text-gray-400`}
+            className={`${className} cursor-pointer file:cursor-pointer file:rounded-l-lg file:rounded-r-none file:border-none file:bg-gray-600 file:p-2.5 file:text-white dark:text-gray-400`}
             id={id}
             ref={ref}
             type={type}
@@ -29,7 +29,7 @@ const Input = React.forwardRef(
           />
         ) : (
           <input
-            className={`${className} p-2.5`}
+            className={`p-2.5 ${className}`}
             id={id}
             ref={ref}
             type={type}

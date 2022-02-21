@@ -13,7 +13,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className="px-2">
+      <main className="container mx-auto">
         <div className="w-full sm:max-w-md pd-2 mx-auto">
           <WalletInfo className="mb-2" />
           <MetaMaskAuthForm />

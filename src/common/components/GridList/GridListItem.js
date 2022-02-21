@@ -58,10 +58,10 @@ export default function GridListItem({
           />
         )}
         <div className="p-5">
-          <h5 className="mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-white">
+          <h5 className="mb-2 text-xl font-bold tracking-tight text-gray-900 cursor-text dark:text-white">
             {name} #{itemId.toString()}
           </h5>
-          <div className="inline-flex items-center py-1 px-2 text-sm font-medium text-center text-white bg-gray-300 rounded-lg dark:bg-gray-700 transition duration-300 group-hover:bg-gray-800 mb-2">
+          <div className="inline-flex items-center py-1 px-2 cursor-text text-sm font-medium text-center text-white bg-gray-300 rounded-lg dark:bg-gray-700 transition duration-300 group-hover:bg-gray-800 mb-2">
             {formatEther(price)}
             <span className="ml-2 w-4">
               <PolygonIcon className="fill-blue-400" />
