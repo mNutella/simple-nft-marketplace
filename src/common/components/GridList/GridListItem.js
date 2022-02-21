@@ -69,7 +69,7 @@ export default function GridListItem({
           </div>
           {!isSameAccount(currentAddress, sellerAddress) && (
             <div className="w-full">
-              <Button className="w-full text-center" onClick={handleBuyClick}>
+              <Button appendClassName="w-full text-center" onClick={handleBuyClick}>
                 <span className="w-full">Buy</span>
               </Button>
             </div>
