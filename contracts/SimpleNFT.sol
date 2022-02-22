@@ -77,25 +77,6 @@ contract SimpleNFT is
         return super.tokenURI(tokenId);
     }
 
-    function approve(address to, uint256 tokenId) public override(ERC721) {
-        address owner = ERC721.ownerOf(tokenId);
-        require(to != owner, "ERC721: approval to current owner");
-
-        require(
-            tx.origin == owner || isApprovedForAll(owner, tx.origin),
-            "ERC721: approve caller is not owner nor approved for all"
-        );
-
-        _approve(to, tokenId);
-    }
-
-    function setApprovalForAll(address operator, bool approved)
-        public
-        override(ERC721)
-    {
-        _setApprovalForAll(tx.origin, operator, approved);
-    }
-
     function supportsInterface(bytes4 interfaceId)
         public
         view
