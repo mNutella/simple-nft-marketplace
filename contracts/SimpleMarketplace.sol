@@ -6,7 +6,6 @@ import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 
 import "./SimpleNFT.sol";
-import "./Console.sol";
 
 contract SimpleMarketplace is ReentrancyGuard {
     using Counters for Counters.Counter;
@@ -14,7 +13,7 @@ contract SimpleMarketplace is ReentrancyGuard {
     Counters.Counter private _soldItems;
 
     address payable private _owner;
-    uint256 private constant _listingPrice = 0.025 ether;
+    uint256 private constant _listingPrice = 0.0007 ether;
 
     mapping(uint256 => MarketplaceItem) private _idToMarketplaceItem;
 

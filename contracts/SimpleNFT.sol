@@ -9,8 +9,6 @@ import "@openzeppelin/contracts/access/AccessControl.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Burnable.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 
-import "./Console.sol";
-
 contract SimpleNFT is
     ERC721,
     ERC721Enumerable,
