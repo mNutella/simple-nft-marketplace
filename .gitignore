@@ -40,3 +40,6 @@ yarn-error.log*
 # envs
 .env
 .env.*
+
+# other
+compile-data.md
