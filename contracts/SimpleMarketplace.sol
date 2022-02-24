@@ -7,7 +7,7 @@ import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 
 import "./SimpleNFT.sol";
 
-contract SimpleMarketplace is ReentrancyGuard {
+contract SimpleMarketplace is ReentrancyGuard, IERC721Receiver {
     using Counters for Counters.Counter;
     Counters.Counter private _items;
     Counters.Counter private _soldItems;
@@ -55,12 +55,8 @@ contract SimpleMarketplace is ReentrancyGuard {
         uint256 price
     ) external payable {
         SimpleNFT newNft = new SimpleNFT(name, symbol);
-        newNft.safeMint(msg.sender, uri);
+        newNft.safeMint(address(this), uri);
 
-        newNft.grantRole(newNft.MINTER_ROLE(), msg.sender);
-        newNft.grantRole(newNft.DEFAULT_ADMIN_ROLE(), msg.sender);
-
-        newNft.approve(address(this), 0);
         createMarketplaceItem(address(newNft), 0, price);
     }
 
@@ -91,7 +87,13 @@ contract SimpleMarketplace is ReentrancyGuard {
             uri
         );
 
-        IERC721(nftContract).transferFrom(msg.sender, address(this), tokenId);
+        if (IERC721(nftContract).ownerOf(tokenId) != address(this)) {
+            IERC721(nftContract).transferFrom(
+                msg.sender,
+                address(this),
+                tokenId
+            );
+        }
 
         payable(_owner).transfer(_listingPrice);
 
@@ -222,5 +224,17 @@ contract SimpleMarketplace is ReentrancyGuard {
         }
 
         return items;
+    }
+
+    function onERC721Received(
+        address,
+        address,
+        uint256,
+        bytes calldata
+    ) external pure override returns (bytes4) {
+        return
+            bytes4(
+                keccak256("onERC721Received(address,address,uint256,bytes)")
+            );
     }
 }
