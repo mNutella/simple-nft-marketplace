@@ -9,7 +9,7 @@ export default function MetaMaskAuthForm() {
   if (account) return null;
 
   return (
-    <div>
+    <div className="text-center">
       {!account && (
         <Button
           appendClassName="inline-flex items-center"
