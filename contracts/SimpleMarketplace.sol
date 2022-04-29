@@ -1,16 +1,26 @@
 // SPDX-License-Identifier: MIT
-pragma solidity >=0.4.22 <0.9.0;
+pragma solidity ^0.8.2;
 
 import "@openzeppelin/contracts/utils/Counters.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
+import "@openzeppelin/contracts/utils/introspection/ERC165Checker.sol";
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
 
 import "./SimpleNFT.sol";
 
-contract SimpleMarketplace is ReentrancyGuard, IERC721Receiver {
+contract SimpleMarketplace is
+    Ownable,
+    ReentrancyGuard,
+    IERC721Receiver,
+    IERC1155Receiver
+{
     using Counters for Counters.Counter;
     Counters.Counter private _items;
     Counters.Counter private _soldItems;
+
+    using ERC165Checker for address;
 
     address payable private _owner;
     uint256 private constant _listingPrice = 0.0007 ether;
@@ -38,8 +48,16 @@ contract SimpleMarketplace is ReentrancyGuard, IERC721Receiver {
         bool sold
     );
 
-    constructor() {
+    SimpleNFT _simpleNFT;
+
+    constructor(address simpeNFT) {
         _owner = payable(msg.sender);
+        setSimpleNFTAddress(simpeNFT);
+    }
+
+    // sets new simpleNFT contract address
+    function setSimpleNFTAddress(address simpeNFT) public onlyOwner {
+        _simpleNFT = SimpleNFT(simpeNFT);
     }
 
     // returns the listing price of the contract
@@ -47,17 +65,13 @@ contract SimpleMarketplace is ReentrancyGuard, IERC721Receiver {
         return _listingPrice;
     }
 
-    // creates an nft and places for sale on marketplace
-    function createMarketplaceNFT(
-        string memory name,
-        string memory symbol,
-        string memory uri,
-        uint256 price
-    ) external payable {
-        SimpleNFT newNft = new SimpleNFT(name, symbol);
-        newNft.safeMint(address(this), uri);
-
-        createMarketplaceItem(address(newNft), 0, price);
+    // mints an nft and places for sale on marketplace
+    function createMarketplaceNFT(string memory uri, uint256 price)
+        external
+        payable
+    {
+        uint256 createdTokenId = _simpleNFT.safeMint(address(this), uri);
+        createMarketplaceItem(address(_simpleNFT), createdTokenId, price);
     }
 
     // places an item for sale on the marketplace
@@ -75,7 +89,31 @@ contract SimpleMarketplace is ReentrancyGuard, IERC721Receiver {
         _items.increment();
         uint256 itemId = _items.current();
 
-        string memory uri = IERC721Metadata(nftContract).tokenURI(tokenId);
+        string memory uri;
+        if (nftContract.supportsInterface(type(IERC1155).interfaceId)) {
+            uri = IERC1155MetadataURI(nftContract).uri(tokenId);
+
+            if (IERC1155(nftContract).balanceOf(address(this), tokenId) == 0) {
+                IERC1155(nftContract).safeTransferFrom(
+                    msg.sender,
+                    address(this),
+                    tokenId,
+                    1,
+                    ""
+                );
+            }
+        } else if (nftContract.supportsInterface(type(IERC721).interfaceId)) {
+            uri = IERC721Metadata(nftContract).tokenURI(tokenId);
+
+            if (IERC721(nftContract).ownerOf(tokenId) != address(this)) {
+                IERC721(nftContract).transferFrom(
+                    msg.sender,
+                    address(this),
+                    tokenId
+                );
+            }
+        }
+
         _idToMarketplaceItem[itemId] = MarketplaceItem(
             itemId,
             nftContract,
@@ -86,14 +124,6 @@ contract SimpleMarketplace is ReentrancyGuard, IERC721Receiver {
             false,
             uri
         );
-
-        if (IERC721(nftContract).ownerOf(tokenId) != address(this)) {
-            IERC721(nftContract).transferFrom(
-                msg.sender,
-                address(this),
-                tokenId
-            );
-        }
 
         payable(_owner).transfer(_listingPrice);
 
@@ -127,7 +157,23 @@ contract SimpleMarketplace is ReentrancyGuard, IERC721Receiver {
         );
 
         _idToMarketplaceItem[itemId].seller.transfer(msg.value);
-        IERC721(nftContract).transferFrom(address(this), msg.sender, tokenId);
+
+        if (nftContract.supportsInterface(type(IERC1155).interfaceId)) {
+            IERC1155(nftContract).safeTransferFrom(
+                address(this),
+                msg.sender,
+                tokenId,
+                1,
+                ""
+            );
+        } else if (nftContract.supportsInterface(type(IERC721).interfaceId)) {
+            IERC721(nftContract).transferFrom(
+                address(this),
+                msg.sender,
+                tokenId
+            );
+        }
+
         _idToMarketplaceItem[itemId].owner = payable(msg.sender);
         _idToMarketplaceItem[itemId].sold = true;
 
@@ -236,5 +282,46 @@ contract SimpleMarketplace is ReentrancyGuard, IERC721Receiver {
             bytes4(
                 keccak256("onERC721Received(address,address,uint256,bytes)")
             );
+    }
+
+    function onERC1155Received(
+        address,
+        address,
+        uint256,
+        uint256,
+        bytes calldata
+    ) external pure override returns (bytes4) {
+        return
+            bytes4(
+                keccak256(
+                    "onERC1155Received(address,address,uint256,uint256,bytes)"
+                )
+            );
+    }
+
+    function onERC1155BatchReceived(
+        address,
+        address,
+        uint256[] calldata,
+        uint256[] calldata,
+        bytes calldata
+    ) external pure override returns (bytes4) {
+        return
+            bytes4(
+                keccak256(
+                    "onERC1155BatchReceived(address,address,uint256[],uint256[],bytes)"
+                )
+            );
+    }
+
+    function supportsInterface(bytes4 interfaceId)
+        public
+        pure
+        override
+        returns (bool)
+    {
+        return
+            interfaceId == type(IERC721Receiver).interfaceId ||
+            interfaceId == type(IERC1155Receiver).interfaceId;
     }
 }
