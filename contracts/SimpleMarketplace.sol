@@ -48,11 +48,11 @@ contract SimpleMarketplace is
         bool sold
     );
 
-    SimpleNFT _simpleNFT;
+    SimpleNFT private _simpleNFT;
 
-    constructor(address simpeNFT) {
+    constructor(address simpeNFT_) {
         _owner = payable(msg.sender);
-        setSimpleNFTAddress(simpeNFT);
+        setSimpleNFTAddress(simpeNFT_);
     }
 
     // sets new simpleNFT contract address
