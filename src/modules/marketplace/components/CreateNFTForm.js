@@ -11,7 +11,7 @@ import { THUMBNAIL_MAX_SIDE_LENGTH } from "@configs/coreConfig";
 
 const initFormValues = {
   name: "",
-  symbol: "",
+  desc: "",
   url: "",
   price: 0,
   file: undefined,
@@ -60,12 +60,13 @@ export default function CreateNFTForm({ id, onProgress }) {
     const metaDataHash = await uploadData(
       JSON.stringify({
         name: data.name,
+        description: data.desc,
         rareness: getRandomInt(100),
         origin: imageHash,
         thumbnail: thumbnailHash,
       })
     );
-    await createNFT(data.name, data.symbol, metaDataHash, data.price);
+    await createNFT(metaDataHash, data.price);
   };
 
   return (
@@ -98,17 +99,18 @@ export default function CreateNFTForm({ id, onProgress }) {
           )}
         />
         <Controller
-          name="symbol"
+          name="desc"
           control={control}
           rules={{
             required: { value: true, message: "This is required input" },
           }}
           render={({ field: { onChange, ...rest } }) => (
             <Input
-              id="symbol"
-              label="Symbol"
-              placeholder="MFT"
-              error={errors.symbol}
+              id="desc"
+              label="Description"
+              type="textarea"
+              placeholder="NFT description"
+              error={errors.desc}
               onChange={(e) => {
                 setError(false);
                 onChange(e);
@@ -127,7 +129,7 @@ export default function CreateNFTForm({ id, onProgress }) {
             <Input
               id="file"
               type="file"
-              label="File"
+              label="Picture"
               accept="image/*"
               helper="File types supported: JPG, PNG, GIF, SVG. Max size: 100 MB"
               error={errors.file}

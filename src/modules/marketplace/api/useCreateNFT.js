@@ -29,9 +29,9 @@ export function useCreateNFT() {
     }
   }, [state]);
 
-  const createNFT = async (name, symbol, url, price) => {
+  const createNFT = async (url, price) => {
     setInProgress(true);
-    await sendCreateMarketplaceNFT(name, symbol, url, utils.parseEther(price), {
+    await sendCreateMarketplaceNFT(url, utils.parseEther(price), {
       value: utils.parseEther(process.env.NEXT_PUBLIC_MARKETPLACE_FEE),
     });
   };
