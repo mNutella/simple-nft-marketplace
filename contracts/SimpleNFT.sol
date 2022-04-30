@@ -27,7 +27,7 @@ contract SimpleNFT is
         ERC721(name_, symbol_)
     {
         _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
-        _grantRole(PAUSER_ROLE, tx.origin);
+        _grantRole(PAUSER_ROLE, msg.sender);
         _grantRole(MINTER_ROLE, msg.sender);
     }
 
