@@ -6,19 +6,33 @@ import Button from "@common/components/Button";
 import Modal from "@modules/modal/components/Modal";
 import useModal from "@modules/modal/api/useModal";
 import CreateNFTForm from "@modules/marketplace/components/CreateNFTForm";
+import AddNFTForm from "@modules/marketplace/components/AddNFTForm";
 
 export default function WalletInfo({ className }) {
   const { account, deactivate } = useEthers();
   const balance = useEtherBalance(account);
-  const { isOpenModal, openModal, closeModal } = useModal();
-  const [loading, setLoading] = useState(false);
+  const {
+    isOpenModal: isOpenCreateModal,
+    openModal: openCreateModal,
+    closeModal: closeCreateModal,
+  } = useModal();
+  const {
+    isOpenModal: isOpenAddModal,
+    openModal: openAddModal,
+    closeModal: closeAddModal,
+  } = useModal();
+  const [loadingCreating, setLoadingCreating] = useState(false);
+  const [loadingAdding, setLoadingAdding] = useState(false);
 
   if (!account) return null;
 
-  const handleProgress = (status) => {
-    setLoading(status);
-
-    if (!status && isOpenModal) closeModal();
+  const handleCreatingProgress = (status) => {
+    setLoadingCreating(status);
+    if (!status && isOpenCreateModal) closeCreateModal();
+  };
+  const handleAddingProgress = (status) => {
+    setLoadingAdding(status);
+    if (!status && isOpenAddModal) closeAddModal();
   };
 
   return (
@@ -43,24 +57,42 @@ export default function WalletInfo({ className }) {
           >
             Sign Out
           </Button>
-          <Button
-            appendClassName="m-auto sm:ml-auto sm:mr-0 block text-xl"
-            onClick={openModal}
-          >
-            +
-          </Button>
+          <div className="mt-4 flex justify-between">
+            <Button appendClassName="text-l" onClick={openAddModal}>
+              Add existing
+            </Button>
+            <Button appendClassName="text-l" onClick={openCreateModal}>
+              Create new
+            </Button>
+          </div>
           <Modal
             title="Creating NFT"
-            open={isOpenModal}
+            open={isOpenCreateModal}
             okayBtnProps={{
               type: "submit",
               form: "create-nft-form",
-              loading: loading,
+              loading: loadingCreating,
             }}
             onOkay={() => null}
-            onClose={closeModal}
+            onClose={closeCreateModal}
           >
-            <CreateNFTForm id="create-nft-form" onProgress={handleProgress} />
+            <CreateNFTForm
+              id="create-nft-form"
+              onProgress={handleCreatingProgress}
+            />
+          </Modal>
+          <Modal
+            title="Adding NFT"
+            open={isOpenAddModal}
+            okayBtnProps={{
+              type: "submit",
+              form: "add-nft-form",
+              loading: loadingAdding,
+            }}
+            onOkay={() => null}
+            onClose={closeAddModal}
+          >
+            <AddNFTForm id="add-nft-form" onProgress={handleAddingProgress} />
           </Modal>
         </>
       )}
