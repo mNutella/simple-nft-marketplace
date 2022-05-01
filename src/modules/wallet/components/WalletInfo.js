@@ -83,13 +83,13 @@ export default function WalletInfo({ className }) {
                 {balance && <Balance balance={balance} />}
               </li>
               <li
-                className="block w-full p-3 cursor-pointer hover:bg-neutral-1 lg:hidden lg:px-10"
+                className="w-full p-3 cursor-pointer hover:bg-neutral-1 lg:px-10"
                 onClick={openAddModal}
               >
                 Add existing
               </li>
               <li
-                className="block w-full p-3 cursor-pointer hover:bg-neutral-1 lg:hidden lg:px-10"
+                className="w-full p-3 cursor-pointer hover:bg-neutral-1 lg:px-10"
                 onClick={openCreateModal}
               >
                 Create new
