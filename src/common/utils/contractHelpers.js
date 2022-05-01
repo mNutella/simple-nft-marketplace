@@ -1,4 +1,7 @@
 import { Contract, ContractFactory, utils } from "ethers";
+import { getAddress } from "@ethersproject/address";
+import { AddressZero } from "@ethersproject/constants";
+import { Contract as SmartContract } from "@ethersproject/contracts";
 
 export function initContracts(items) {
   if (!items || !items.length) throw new Error("There are not contracts data");
@@ -42,4 +45,28 @@ export function getContracts(items) {
 
     return [...acc, getContract(contractAddress, contractAbi)];
   }, []);
+}
+
+export function isAddress(value) {
+  try {
+    return getAddress(value);
+  } catch {
+    return false;
+  }
+}
+
+export function getSigner(library, account) {
+  return library.getSigner(account).connectUnchecked();
+}
+
+export function getProviderOrSigner(library, account) {
+  return account ? getSigner(library, account) : library;
+}
+
+export function getContractByProvider(address, abi, library, account) {
+  if (!isAddress(address) || address === AddressZero) {
+    throw Error(`Invalid 'address' parameter '${address}'.`);
+  }
+
+  return new SmartContract(address, abi, getProviderOrSigner(library, account));
 }
