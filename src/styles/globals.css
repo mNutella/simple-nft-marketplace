@@ -1,3 +1,15 @@
 @tailwind base; 
 @tailwind components; 
 @tailwind utilities;
+
+
+@layer base {
+  html {
+    -webkit-tap-highlight-color: transparent;
+  }
+  body {
+    @apply scroll-smooth;
+    @apply bg-black;
+    @apply text-white;
+  }
+}

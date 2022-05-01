@@ -6,7 +6,8 @@
       "@modules/*": ["src/modules/*"],
       "@styles/*": ["src/styles/*"],
       "@configs/*": ["src/configs/*"],
-      "@public/*": ["public/*"],
+      "@layouts/*": ["src/layouts/*"],
+      "@public/*": ["public/*"]
     }
   }
 }

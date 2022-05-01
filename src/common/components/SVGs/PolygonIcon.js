@@ -2,7 +2,13 @@ import React from "react";
 
 export default function PolygonIcon({ className = "text-white" }) {
   return (
-    <svg className={className} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 38.4 33.5">
+    <svg
+      className={className}
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 38.4 33.5"
+      stroke="none"
+      fill="currentColor"
+    >
       <g>
         <path
           d="M29,10.2c-0.7-0.4-1.6-0.4-2.4,0L21,13.5l-3.8,2.1l-5.5,3.3c-0.7,0.4-1.6,0.4-2.4,0L5,16.3

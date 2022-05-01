@@ -1,10 +1,10 @@
+import { cropAddress } from "@common/utils/strings";
 import React from "react";
 
 export default function Address({ address }) {
   return (
-    <p className="text-sm font-medium">
-      {address.slice(0, 4)}...
-      {address.slice(address.length - 6, address.length)}
+    <p className="px-4 py-1 font-bold text-md">
+      {cropAddress(address, 4, 6)}
     </p>
   );
 }

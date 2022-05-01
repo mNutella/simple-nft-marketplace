@@ -1,9 +1,7 @@
-import React from "react";
-
-export default function MetaMaskIcon() {
+export default function MetaMaskIcon({ className = 'w-6 h-5' }) {
   return (
     <svg
-      className="mr-2 -ml-1 w-6 h-5"
+      className={className}
       viewBox="0 0 2405 2501"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
