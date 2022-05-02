@@ -14,7 +14,7 @@ const HomeFeaturedArtworks = ({ items }) => {
 
       <div className="flex flex-col mt-10 space-y-6 lg:grid-cols-3 lg:grid lg:gap-x-3 lg:space-y-0">
         {items.map((item) => (
-          <Link key={item.id} href={`/nft/${item?.id}`}>
+          <Link key={item.id} href='/nft' as={`/nft/${item?.id}`}>
             <a>
               <div className="p-5 space-y-2 transition duration-300 cursor-pointer lg:max-w-lg rounded-xl bg-neutral-1 hover:bg-neutral-2 hover:scale-101">
                 <div className="relative w-full h-full">

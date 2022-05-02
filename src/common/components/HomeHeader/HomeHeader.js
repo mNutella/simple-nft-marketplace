@@ -8,8 +8,8 @@ const HomeHeader = ({ nftData }) => {
   return (
     <section className="py-5 space-y-6 lg:flex lg:py-10 lg:space-y-0">
       <div className="flex items-center justify-center lg:basis-1/2">
-        <div className="space-y-12 lg:max-w-md">
-          <h1 className="font-bold text-7xl">Trade NFTs, Get Rewards</h1>
+        <div className="space-y-6 lg:space-y-12 lg:max-w-md">
+          <h1 className="text-6xl font-bold lg:text-7xl">Trade NFTs, Get Rewards</h1>
           <p className="text-lg text-neutral-4">
             Trade Wise is the community-first NFT marketplace with rewards for
             participating. Buy NFTs (or sell &apos;em) to earn rewards. Explore
@@ -36,7 +36,7 @@ const HomeHeader = ({ nftData }) => {
         </div>
       </div>
       <div className="lg:basis-1/2 lg:p-10">
-        <Link href={`/nft/${nftData?.id}`}>
+        <Link href="/nft" as={`/nft/${nftData?.id}`}>
           <a>
             <div className="p-5 space-y-2 transition duration-150 cursor-pointer rounded-xl bg-neutral-1 hover:bg-neutral-2 lg:max-w-lg">
               <div className="">

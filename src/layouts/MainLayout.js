@@ -3,9 +3,9 @@ import Head from "next/head";
 import Navbar from "@common/components/Navbar";
 import Footer from "@common/components/Footer";
 
-const MainLayout = ({ children }) => {
+const MainLayout = ({ children, className }) => {
   return (
-    <div>
+    <div className={className}>
       <Head>
         <title>Simple NFT Marketplace</title>
         <meta name="description" content="simple nft marketplace" />

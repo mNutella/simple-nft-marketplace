@@ -11,11 +11,11 @@ const HomeTopTraders = ({ items }) => {
 
   return (
     <section className="py-5 lg:py-10">
-      <h2 className="text-5xl font-bold text-center">Top Traders This Week</h2>
+      <h2 className="text-4xl font-bold text-center lg:text-5xl">Top Traders This Week</h2>
 
       <div className="flex flex-col mt-10 space-y-4 lg:grid lg:grid-cols-3 lg:gap-3 lg:space-y-0">
         {items.map((item) => (
-          <Link key={item.id} href={`/nft/${item?.id}`}>
+          <Link key={item.id} href="/trader" as={`/trader/${item?.id}`}>
             <a>
               <div
                 key={item.key}

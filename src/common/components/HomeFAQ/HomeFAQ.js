@@ -14,13 +14,13 @@ const HomeFAQ = ({ items }) => {
         Create and sell your NFTs
       </h2>
 
-      <div className="flex flex-col space-y-6 lg:grid lg:grid-cols-3 lg:space-y-0 lg:gap-x-10">
+      <div className="flex flex-col items-center space-y-6 lg:grid lg:grid-cols-3 lg:space-y-0 lg:gap-x-10">
         {items.map((item) => (
           <div
             key={item.title}
             className="max-w-lg p-5 space-y-2 overflow-hidden text-center lg:p-10 rounded-xl bg-neutral-1"
           >
-            <div className="relative mx-auto max-w-[300px]">
+            <div className="relative mx-auto max-w-[200px] lg:max-w-full">
               <Image
                 className="rounded-xl"
                 layout="responsive"
@@ -47,7 +47,7 @@ const HomeFAQ = ({ items }) => {
         </LinkButton>
         <LinkButton
           href="/create?add"
-          className="px-12 py-3 border-2 border-primary shadow-primary/40 hover:bg-primary hover:text-black"
+          className="px-12 py-3 border-2 border-secondary shadow-secondary/40 hover:bg-secondary"
         >
           Sell
         </LinkButton>
