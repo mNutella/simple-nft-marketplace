@@ -1,12 +1,3 @@
-// import Explore from "@modules/marketplace/components/Explore";
-// import Modal from "@modules/modal/components/Modal";
-{
-  /* <main className="container mx-auto">
-<Explore />
-<Modal />
-</main> */
-}
-
 const HEADER_DATA = {
   id: 1,
   name: "M2 Mutant Serum",
@@ -124,7 +115,7 @@ import HomeHeader from "@common/components/HomeHeader";
 import HomeTopTraders from "@common/components/HomeTopTraders";
 import NewsletterCTA from "@common/components/NewsletterCTA";
 
-export default function Home() {
+export default function HomePage() {
   return (
     <MainLayout>
       <HomeHeader nftData={HEADER_DATA} />
