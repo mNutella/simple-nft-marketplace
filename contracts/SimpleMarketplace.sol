@@ -26,7 +26,7 @@ contract SimpleMarketplace is
     uint256 private constant _listingPrice = 0.0007 ether;
 
     mapping(uint256 => MarketplaceItem) private _idToMarketplaceItem;
-    mapping(string => bool) private _urlToMarketplaceItem;
+    mapping(string => bool) private _marketplaceItemUrls;
 
     struct MarketplaceItem {
         uint256 itemId;
@@ -115,9 +115,10 @@ contract SimpleMarketplace is
                     tokenId
                 );
             }
-        } else return;
+        } else revert("NFT does not implement IERC721 or IERC1155");
 
-        if (_urlToMarketplaceItem[uri]) return;
+        if (_marketplaceItemUrls[uri])
+            revert("NFT is already added to marketplace");
 
         _items.increment();
         uint256 itemId = _items.current();
@@ -132,7 +133,7 @@ contract SimpleMarketplace is
             false,
             uri
         );
-        _urlToMarketplaceItem[uri] = true;
+        _marketplaceItemUrls[uri] = true;
 
         payable(_owner).transfer(_listingPrice);
 
@@ -185,7 +186,7 @@ contract SimpleMarketplace is
 
         _idToMarketplaceItem[itemId].owner = payable(msg.sender);
         _idToMarketplaceItem[itemId].sold = true;
-        _urlToMarketplaceItem[_idToMarketplaceItem[itemId].uri] = false;
+        _marketplaceItemUrls[_idToMarketplaceItem[itemId].uri] = false;
 
         _soldItems.increment();
 

@@ -740,31 +740,21 @@ contract("SimpleNFT & SimpleMarketplace", async function (accounts) {
   // });
 });
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-///                                                                                                                                         ///
-/// MAIN TEST                                                                                                                               ///
-///                                                                                                                                         ///
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///
-/// const nftAbi = [];  // <- ..\..\bin\contracts\SimpleNFT.abi
+/// MIGRATION STEPS
 ///
-/// const oneEthereum = 1000000000000000000;
-/// const nftPrice = 10 * oneEthereum;
-/// const listingPrice = 0.025 * oneEthereum;
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///
-/// const accounts = await web3.eth.getAccounts();
-/// const secondAccount = accounts[1];
+/// truffle compile
+/// truffle deploy --compile-none --network matic
 ///
+/// truffle console --network matic
 /// const marketplace = await SimpleMarketplace.deployed();
+/// marketplace.setSimpleNFTAddress("0x8aeE3cdeD117De523bDE77B8de71EdcDFc1cf3EF");
+/// const nft = await SimpleNFT.deployed();
+/// nft.grantRole("0x9f2df0fed2c77648de5860a4cc508cd0818c85b8b8a1ab4ceeef8d981c8956a6", "0x7fE6753da88019FCAC8bd3844Dc7c6B59532c370");
 ///
-/// marketplace.createMarketplaceNFT("MyCollection", "MCL", "sampleMetadata.json", nftPrice.toString(), {value: listingPrice});
-/// const marketplaceItemCount = 1;
-/// const firstNftLastItemIndex = 0;
-/// const nftContractAddress = ; // <- event 'MarketplaceItemChanged'.nftContract
+/// .env
 ///
-/// marketplace.createMarketplaceSale(nftContractAddress, marketplaceItemCount, {from: secondAccount, value: nftPrice});
-///
-/// new web3.eth.Contract(nftAbi, nftContractAddress).methods.approve(marketplace.address, firstNftLastItemIndex).send({from: secondAccount});
-/// marketplace.createMarketplaceItem(nftContractAddress, firstNftLastItemIndex, nftPrice, {from: secondAccount, value: listingPrice})
-///
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
