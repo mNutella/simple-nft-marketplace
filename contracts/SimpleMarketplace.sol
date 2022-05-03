@@ -26,6 +26,7 @@ contract SimpleMarketplace is
     uint256 private constant _listingPrice = 0.0007 ether;
 
     mapping(uint256 => MarketplaceItem) private _idToMarketplaceItem;
+    mapping(string => bool) private _urlToMarketplaceItem;
 
     struct MarketplaceItem {
         uint256 itemId;
@@ -70,6 +71,7 @@ contract SimpleMarketplace is
         external
         payable
     {
+        // TEMPRORARY // upgrade erc721 to erc1155 OR deploy diff users' collection into diff erc721 contracts (old behaviour - check commits)
         uint256 createdTokenId = _simpleNFT.safeMint(address(this), uri);
         createMarketplaceItem(address(_simpleNFT), createdTokenId, price);
     }
@@ -85,9 +87,10 @@ contract SimpleMarketplace is
             msg.value == _listingPrice,
             "Price must be equal to Listing Price"
         );
-
-        _items.increment();
-        uint256 itemId = _items.current();
+        require(
+            nftContract.supportsInterface(type(IERC165).interfaceId),
+            "Contract must implement IERC165"
+        );
 
         string memory uri;
         if (nftContract.supportsInterface(type(IERC1155).interfaceId)) {
@@ -112,18 +115,24 @@ contract SimpleMarketplace is
                     tokenId
                 );
             }
-        }
+        } else return;
+
+        if (_urlToMarketplaceItem[uri]) return;
+
+        _items.increment();
+        uint256 itemId = _items.current();
 
         _idToMarketplaceItem[itemId] = MarketplaceItem(
             itemId,
             nftContract,
             tokenId,
             payable(msg.sender),
-            payable(address(0)),
+            payable(address(this)),
             price,
             false,
             uri
         );
+        _urlToMarketplaceItem[uri] = true;
 
         payable(_owner).transfer(_listingPrice);
 
@@ -132,7 +141,7 @@ contract SimpleMarketplace is
             nftContract,
             tokenId,
             msg.sender,
-            address(0),
+            address(this),
             price,
             false
         );
@@ -176,6 +185,7 @@ contract SimpleMarketplace is
 
         _idToMarketplaceItem[itemId].owner = payable(msg.sender);
         _idToMarketplaceItem[itemId].sold = true;
+        _urlToMarketplaceItem[_idToMarketplaceItem[itemId].uri] = false;
 
         _soldItems.increment();
 
@@ -183,7 +193,7 @@ contract SimpleMarketplace is
             itemId,
             nftContract,
             tokenId,
-            address(0),
+            address(this),
             msg.sender,
             price,
             true
@@ -202,7 +212,7 @@ contract SimpleMarketplace is
 
         MarketplaceItem[] memory items = new MarketplaceItem[](unsoldItemCount);
         for (uint256 i = 0; i < itemCount; i++) {
-            if (_idToMarketplaceItem[i + 1].owner == address(0)) {
+            if (_idToMarketplaceItem[i + 1].owner == address(this)) {
                 uint256 currentId = i + 1;
                 MarketplaceItem storage currentItem = _idToMarketplaceItem[
                     currentId
