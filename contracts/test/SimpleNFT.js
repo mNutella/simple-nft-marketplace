@@ -767,4 +767,9 @@ contract("SimpleNFT & SimpleMarketplace", async function (accounts) {
 /// new web3.eth.Contract(nftAbi, nftContractAddress).methods.approve(marketplace.address, firstNftLastItemIndex).send({from: secondAccount});
 /// marketplace.createMarketplaceItem(nftContractAddress, firstNftLastItemIndex, nftPrice, {from: secondAccount, value: listingPrice})
 ///
+/// const marketplace = await SimpleMarketplace.deployed();
+// marketplace.setSimpleNFTAddress("0x08411ADd0b5AA8ee47563b146743C13b3556c9Cc");
+// const nft = await SimpleNFT.deployed();
+// nft.grantRole("0x9f2df0fed2c77648de5860a4cc508cd0818c85b8b8a1ab4ceeef8d981c8956a6", "0x7fE6753da88019FCAC8bd3844Dc7c6B59532c370");
+///
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
