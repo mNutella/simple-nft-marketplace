@@ -1,44 +1,17 @@
-import React, { useState } from "react";
+import Link from "next/link";
 import Image from "next/image";
-import { useEtherBalance, useEthers } from "@usedapp/core";
 import Address from "./Address";
 import Balance from "./Balance";
-import Modal from "@modules/modal/components/Modal";
-import useModal from "@modules/modal/api/useModal";
-import CreateNFTForm from "@modules/marketplace/components/CreateNFTForm";
-import AddNFTForm from "@modules/marketplace/components/AddNFTForm";
 import { Popover } from "@headlessui/react";
-import Link from "next/link";
 
-export default function WalletInfo({ className }) {
-  const { account, deactivate } = useEthers();
-  const balance = useEtherBalance(account);
-  const {
-    isOpenModal: isOpenCreateModal,
-    openModal: openCreateModal,
-    closeModal: closeCreateModal,
-  } = useModal();
-  const {
-    isOpenModal: isOpenAddModal,
-    openModal: openAddModal,
-    closeModal: closeAddModal,
-  } = useModal();
-  const [loadingCreating, setLoadingCreating] = useState(false);
-  const [loadingAdding, setLoadingAdding] = useState(false);
-
-  if (!account) return null;
-
-  const handleCreatingProgress = (status) => {
-    setLoadingCreating(status);
-    if (!status && isOpenCreateModal) closeCreateModal();
-  };
-  const handleAddingProgress = (status) => {
-    setLoadingAdding(status);
-    if (!status && isOpenAddModal) closeAddModal();
-  };
-
+export default function WalletInfo({
+  account,
+  balance,
+  className,
+  onDeactivate,
+}) {
   return (
-    <div className="flex items-center justify-center lg:space-x-6">
+    <div className={`flex items-center justify-end lg:space-x-6 ${className}`}>
       <div className="flex items-center px-2 py-1 space-x-3 rounded-full bg-neutral-2">
         <Image
           className="rounded-full"
@@ -76,74 +49,37 @@ export default function WalletInfo({ className }) {
             </svg>
           </Popover.Button>
 
-          <Popover.Panel className="absolute right-0 z-10 mt-3 overflow-hidden transform rounded-xl bg-neutral-2 lg:left-1/2 lg:w-screen lg:max-w-fit lg:-translate-x-1/2">
-            <ul className="w-fit">
-              <li className="w-full pt-3 text-center border-b-2 border-neutral-1 lg:px-10">
-                {account && <Address address={account} />}
-                {balance && <Balance balance={balance} />}
-              </li>
-              <li
+          <Popover.Panel className="absolute z-10 mt-3 overflow-hidden transform -right-1 rounded-xl bg-neutral-2 xl:left-1 xl:w-screen xl:max-w-fit xl:-translate-x-1/2">
+            <div className="flex flex-col w-full whitespace-nowrap">
+              <div className="w-full pt-3 text-center border-b-2 border-neutral-1 lg:px-10">
+                <Address address={account} />
+                <Balance balance={balance} />
+              </div>
+              <Link href="/create">
+                <a className="w-full p-3 cursor-pointer hover:bg-neutral-1 lg:px-10">
+                  Create NFT
+                </a>
+              </Link>
+              <Link href="/create?type=add">
+                <a className="w-full p-3 cursor-pointer hover:bg-neutral-1 lg:px-10">
+                  Add NFT
+                </a>
+              </Link>
+              <Link href="/explore">
+                <a className="block w-full p-3 cursor-pointer lg:hidden hover:bg-neutral-1 lg:px-10">
+                  Explore
+                </a>
+              </Link>
+              <div
                 className="w-full p-3 cursor-pointer hover:bg-neutral-1 lg:px-10"
-                onClick={openAddModal}
-              >
-                Add existing
-              </li>
-              <li
-                className="w-full p-3 cursor-pointer hover:bg-neutral-1 lg:px-10"
-                onClick={openCreateModal}
-              >
-                Create new
-              </li>
-              <li className="block w-full p-3 cursor-pointer hover:bg-neutral-1 lg:hidden lg:px-10">
-                <Link href="/explore">
-                  <a>Explore</a>
-                </Link>
-              </li>
-              <li className="block w-full p-3 cursor-pointer hover:bg-neutral-1 lg:hidden lg:px-10">
-                <Link href="/create">
-                  <a>Create</a>
-                </Link>
-              </li>
-              <li
-                className="w-full p-3 cursor-pointer hover:bg-neutral-1 lg:px-10"
-                onClick={deactivate}
+                onClick={onDeactivate}
               >
                 Log Out
-              </li>
-            </ul>
+              </div>
+            </div>
           </Popover.Panel>
         </Popover>
       </div>
-
-      <Modal
-        title="Creating NFT"
-        open={isOpenCreateModal}
-        okayBtnProps={{
-          type: "submit",
-          form: "create-nft-form",
-          loading: loadingCreating,
-        }}
-        onOkay={() => null}
-        onClose={closeCreateModal}
-      >
-        <CreateNFTForm
-          id="create-nft-form"
-          onProgress={handleCreatingProgress}
-        />
-      </Modal>
-      <Modal
-        title="Adding NFT"
-        open={isOpenAddModal}
-        okayBtnProps={{
-          type: "submit",
-          form: "add-nft-form",
-          loading: loadingAdding,
-        }}
-        onOkay={() => null}
-        onClose={closeAddModal}
-      >
-        <AddNFTForm id="add-nft-form" onProgress={handleAddingProgress} />
-      </Modal>
     </div>
   );
 }
