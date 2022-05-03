@@ -3,25 +3,22 @@ import FileInput from "./FileInput";
 
 const Input = React.forwardRef(
   ({ id, label, type, value, helper, error, ...rest }, ref) => {
-    const className = `bg-gray-50 border text-gray-900 text-sm rounded-lg focus:ring-blue-500 ${
+    const className = `bg-neutral-2 text-white border rounded-lg focus:ring-blue-500 block w-full focus:ring-blue-500 focus:border-blue-500 ${
       error
         ? "border-red-500 placeholder-red-500"
-        : "border-gray-300 focus:border-blue-500 dark:border-gray-600 dark:placeholder-gray-400"
-    } block w-full dark:bg-gray-700 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500`;
+        : "border-primary focus:border-blue-500 placeholder-neutral-3"
+    }`;
 
     return (
-      <div className="mb-6">
+      <div>
         {label && (
-          <label
-            htmlFor={id}
-            className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-          >
+          <label htmlFor={id} className="block mb-2 font-medium text-white">
             {label}
           </label>
         )}
         {type === "file" ? (
           <FileInput
-            className={`${className} cursor-pointer file:cursor-pointer file:rounded-l-lg file:rounded-r-none file:border-none file:bg-gray-600 file:p-2.5 file:text-white dark:text-gray-400`}
+            className={`${className} cursor-pointer text-neutral-3 file:cursor-pointer file:rounded-l-lg file:rounded-r-none file:border-none file:bg-neutral-1 file:p-3 file:text-neutral-4`}
             id={id}
             ref={ref}
             type={type}
@@ -29,7 +26,7 @@ const Input = React.forwardRef(
           />
         ) : (
           <input
-            className={`p-2.5 ${className}`}
+            className={`p-3 ${className}`}
             id={id}
             ref={ref}
             type={type}

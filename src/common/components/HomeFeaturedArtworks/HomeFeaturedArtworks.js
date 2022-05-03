@@ -10,13 +10,15 @@ const HomeFeaturedArtworks = ({ items }) => {
 
   return (
     <section className="py-5 lg:py-10">
-      <h2 className="text-4xl font-bold text-center lg:text-5xl">Featured Artworks</h2>
+      <h2 className="text-4xl font-bold text-center lg:text-5xl">
+        Featured Artworks
+      </h2>
 
-      <div className="flex flex-col mt-10 space-y-6 lg:grid-cols-3 lg:grid lg:gap-x-3 lg:space-y-0">
+      <div className="flex flex-col mt-10 space-y-6 lg:grid lg:grid-cols-3 lg:gap-x-3 lg:space-y-0">
         {items.map((item) => (
-          <Link key={item.id} href='/nft' as={`/nft/${item?.id}`}>
+          <Link key={item.id} href={`/nft/${item?.id}`}>
             <a>
-              <div className="p-5 space-y-2 transition duration-300 cursor-pointer lg:max-w-lg rounded-xl bg-neutral-1 hover:bg-neutral-2 hover:scale-101">
+              <div className="p-5 space-y-2 transition duration-300 cursor-pointer rounded-xl bg-neutral-1 hover:scale-101 hover:bg-neutral-2 lg:max-w-lg">
                 <div className="relative w-full h-full">
                   <Image
                     className="rounded-xl"

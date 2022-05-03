@@ -11,15 +11,17 @@ const HomeTopTraders = ({ items }) => {
 
   return (
     <section className="py-5 lg:py-10">
-      <h2 className="text-4xl font-bold text-center lg:text-5xl">Top Traders This Week</h2>
+      <h2 className="text-4xl font-bold text-center lg:text-5xl">
+        Top Traders This Week
+      </h2>
 
       <div className="flex flex-col mt-10 space-y-4 lg:grid lg:grid-cols-3 lg:gap-3 lg:space-y-0">
         {items.map((item) => (
-          <Link key={item.id} href="/trader" as={`/trader/${item?.id}`}>
+          <Link key={item?.id} href={`/trader/${item?.id}`}>
             <a>
               <div
                 key={item.key}
-                className="flex p-5 space-x-4 overflow-hidden transition duration-150 rounded-xl bg-neutral-1 hover:bg-neutral-2 hover:scale-101"
+                className="flex p-5 space-x-4 overflow-hidden transition duration-150 rounded-xl bg-neutral-1 hover:scale-101 hover:bg-neutral-2"
               >
                 <div className="relative h-[65px] w-[65px]">
                   <Image

@@ -1,19 +1,21 @@
 import Image from "next/image";
-import React, { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useEthers } from "@usedapp/core";
 import { Controller, useForm } from "react-hook-form";
 import Input from "@common/components/Input";
 import { getRandomInt } from "@common/utils/mathHelpers";
+import Button from "@common/components/Button";
 import { useCreateNFT } from "@modules/marketplace/api/useCreateNFT";
 import { useIPFSApi } from "@modules/ipfs/useIPFSApi";
 import { useImageResize } from "@modules/image-resizer/useImageResize";
 import { THUMBNAIL_MAX_SIDE_LENGTH } from "@configs/coreConfig";
+import Spinner from "@common/components/SVGs/Spinner";
 
 const initFormValues = {
   name: "",
   desc: "",
   url: "",
-  price: 0,
+  price: "",
   file: undefined,
 };
 
@@ -22,6 +24,7 @@ export default function CreateNFTForm({ id, onProgress }) {
   const { state, error, setError, createNFT } = useCreateNFT(account);
   const { uploadData } = useIPFSApi();
   const { resize } = useImageResize();
+  const [loading, setLoading] = useState(false);
   const {
     control,
     handleSubmit,
@@ -46,14 +49,14 @@ export default function CreateNFTForm({ id, onProgress }) {
   useEffect(() => {
     if (state.status === "Success") {
       reset({ ...initFormValues });
-      onProgress && onProgress(false);
+      setLoading(false);
     }
   }, [state.status, reset, onProgress]);
 
   if (!account) return null;
 
   const handleFormSubmit = async (data) => {
-    onProgress && onProgress(true);
+    setLoading(true);
 
     const thumbnailHash = await uploadData(data.thumbnail.buffer);
     const imageHash = await uploadData(Buffer(data.file.reader?.result));
@@ -70,14 +73,24 @@ export default function CreateNFTForm({ id, onProgress }) {
   };
 
   return (
-    <div>
+    <div className="relative p-6 overflow-hidden rounded-lg bg-neutral-1 lg:mx-auto lg:max-w-lg">
+      {loading &&
+      (
+        <div className="absolute top-0 bottom-0 left-0 right-0 z-10 flex items-center justify-center bg-neutral-1 opacity-80">
+          <Spinner className="w-10 h-10" />
+        </div>
+      )}
       {error && (
-        <p className="mb-2 text-center text-base text-red-500">
+        <p className="mb-2 text-base text-center text-red-500">
           Something went wrong, try repeat transaction{" "}
           <span className="text-lg">🥺</span>
         </p>
       )}
-      <form id={id} onSubmit={handleSubmit(handleFormSubmit)}>
+      <form
+        id={id}
+        onSubmit={handleSubmit(handleFormSubmit)}
+        className="space-y-6"
+      >
         <Controller
           name="name"
           control={control}
@@ -87,8 +100,7 @@ export default function CreateNFTForm({ id, onProgress }) {
           render={({ field: { onChange, ...rest } }) => (
             <Input
               id="name"
-              label="Name"
-              placeholder="SimpleNFT"
+              placeholder="Name"
               error={errors.name}
               onChange={(e) => {
                 setError(false);
@@ -107,9 +119,8 @@ export default function CreateNFTForm({ id, onProgress }) {
           render={({ field: { onChange, ...rest } }) => (
             <Input
               id="desc"
-              label="Description"
               type="textarea"
-              placeholder="NFT description"
+              placeholder="Description"
               error={errors.desc}
               onChange={(e) => {
                 setError(false);
@@ -119,43 +130,47 @@ export default function CreateNFTForm({ id, onProgress }) {
             />
           )}
         />
-        <Controller
-          name="file"
-          control={control}
-          rules={{
-            required: { value: true, message: "This is required input" },
-          }}
-          render={({ field: { onChange, ...rest } }) => (
-            <Input
-              id="file"
-              type="file"
-              label="Picture"
-              accept="image/*"
-              helper="File types supported: JPG, PNG, GIF, SVG. Max size: 100 MB"
-              error={errors.file}
-              onChange={async (e) => {
-                setError(false);
-                const resizedImg = await resize(
-                  new Blob([e.reader?.result]),
-                  THUMBNAIL_MAX_SIDE_LENGTH
-                );
-                setValue("thumbnail", resizedImg);
-                onChange(e);
-              }}
-              {...rest}
-            />
-          )}
-        />
-        {watchThumbnail?.image && (
-          <Image
-            className="max-w-10 mb-6 rounded-lg"
-            width={100}
-            height={100}
-            objectFit="cover"
-            src={watchThumbnail.image?.src}
-            alt="preview image"
+        <div>
+          <Controller
+            name="file"
+            control={control}
+            rules={{
+              required: { value: true, message: "This is required input" },
+            }}
+            render={({ field: { onChange, ...rest } }) => (
+              <Input
+                id="file"
+                type="file"
+                accept="image/*"
+                helper="File types supported: JPG, PNG, GIF, SVG. Max size: 100 MB"
+                error={errors.file}
+                onChange={async (e) => {
+                  setError(false);
+                  const resizedImg = await resize(
+                    new Blob([e.reader?.result]),
+                    THUMBNAIL_MAX_SIDE_LENGTH
+                  );
+                  setValue("thumbnail", resizedImg);
+                  onChange(e);
+                }}
+                {...rest}
+              />
+            )}
           />
-        )}
+          {watchThumbnail?.image && (
+            <div className="relative mt-2 max-w-[100px]">
+              <Image
+                className="rounded-lg"
+                layout="responsive"
+                width={100}
+                height={100}
+                objectFit="cover"
+                src={watchThumbnail.image?.src}
+                alt="Preview image"
+              />
+            </div>
+          )}
+        </div>
         <Controller
           name="price"
           control={control}
@@ -167,8 +182,7 @@ export default function CreateNFTForm({ id, onProgress }) {
             <Input
               id="price"
               type="number"
-              label="Price"
-              placeholder="0.007"
+              placeholder="Price"
               error={errors.price}
               onChange={(e) => {
                 setError(false);
@@ -178,6 +192,12 @@ export default function CreateNFTForm({ id, onProgress }) {
             />
           )}
         />
+        <Button
+          className={`w-full border-2 border-transparent bg-secondary px-8 py-3 text-white shadow-secondary/40 transition duration-150 hover:border-secondary hover:bg-transparent`}
+          type="submit"
+        >
+          Create
+        </Button>
       </form>
     </div>
   );

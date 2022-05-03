@@ -33,6 +33,8 @@ const FAQ_DATA = [
     description:
       "Meet the Trade Wise team, trades and artists for platform updates, announcements, and more...",
     image: "/images/home-faq-artwork.png",
+    link: '/create',
+    linkText: 'Create New NFT'
   },
   {
     id: 2,
@@ -40,6 +42,8 @@ const FAQ_DATA = [
     description:
       "Meet the Trade Wise team, trades and artists for platform updates, announcements, and more...",
     image: "/images/home-faq-artwork.png",
+    link: '/create?type=add',
+    linkText: 'Add Existing NFT'
   },
   {
     id: 3,
@@ -47,6 +51,8 @@ const FAQ_DATA = [
     description:
       "Meet the Trade Wise team, trades and artists for platform updates, announcements, and more...",
     image: "/images/home-faq-artwork.png",
+    link: '/explore',
+    linkText: 'Explore'
   },
 ];
 
