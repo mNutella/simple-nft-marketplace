@@ -9,7 +9,7 @@ const HomeFAQ = ({ items }) => {
   }
 
   return (
-    <section className="py-5 space-y-10 lg:space-y-10 lg:py-10">
+    <section className="py-5 space-y-10 lg:space-y-10 lg:py-20">
       <h2 className="text-4xl font-bold text-center lg:text-5xl">
         Create and sell your NFTs
       </h2>

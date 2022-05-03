@@ -5,7 +5,7 @@ import PolygonIcon from "../SVGs/PolygonIcon";
 import Button from "../Button";
 
 import "react-medium-image-zoom/dist/styles.css";
-import { getExplorerAddressLink, Polygon } from "@usedapp/core";
+import { getExplorerAddressLink, Mumbai } from "@usedapp/core";
 
 const NFTHeader = ({ nftData, onBuy }) => {
   return (
@@ -17,7 +17,7 @@ const NFTHeader = ({ nftData, onBuy }) => {
             <Link
               href={getExplorerAddressLink(
                 nftData?.ownerAddress,
-                Polygon.chainId
+                Mumbai.chainId
               )}
             >
               <a
@@ -50,7 +50,10 @@ const NFTHeader = ({ nftData, onBuy }) => {
       </div>
       <div className="order-1 lg:order-2 lg:basis-1/2 lg:p-10">
         <div className="p-5 space-y-2 rounded-xl bg-neutral-1 lg:max-w-lg">
-          <Zoom wrapStyle={{ minWidth: "100%", display: 'flex' }} overlayBgColorEnd="#0a0a0a">
+          <Zoom
+            wrapStyle={{ minWidth: "100%", display: "flex" }}
+            overlayBgColorEnd="#0a0a0a"
+          >
             <div className="relative min-w-full ">
               <Image
                 className="rounded-xl"

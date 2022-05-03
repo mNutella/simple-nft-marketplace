@@ -1,5 +1,6 @@
 import { DAppProvider } from "@usedapp/core";
 import { ContractsProvider } from "@modules/contract/provider";
+import { UserProvider } from "@modules/auth/context/provider";
 import { IPFSProvider } from "@modules/ipfs/provider";
 import { initialContractsAndFactories } from "@configs/contractsConfig";
 import { config } from "@configs/etherConfig";
@@ -12,7 +13,9 @@ function MyApp({ Component, pageProps }) {
     <DAppProvider config={config}>
       <ContractsProvider initValue={initialContractsAndFactories}>
         <IPFSProvider config={ipfsConfig}>
-          <Component {...pageProps} />
+          <UserProvider>
+            <Component {...pageProps} />
+          </UserProvider>
         </IPFSProvider>
       </ContractsProvider>
     </DAppProvider>

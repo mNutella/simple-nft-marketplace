@@ -5,6 +5,7 @@ import Balance from "./Balance";
 import { Popover } from "@headlessui/react";
 
 export default function WalletInfo({
+  chainId,
   account,
   balance,
   className,
@@ -53,7 +54,7 @@ export default function WalletInfo({
             <div className="flex flex-col w-full whitespace-nowrap">
               <div className="w-full pt-3 text-center border-b-2 border-neutral-1 lg:px-10">
                 <Address address={account} />
-                <Balance balance={balance} />
+                <Balance chainId={chainId} balance={balance} />
               </div>
               <Link href="/create">
                 <a className="w-full p-3 cursor-pointer hover:bg-neutral-1 lg:px-10">
@@ -66,7 +67,7 @@ export default function WalletInfo({
                 </a>
               </Link>
               <Link href="/explore">
-                <a className="block w-full p-3 cursor-pointer lg:hidden hover:bg-neutral-1 lg:px-10">
+                <a className="block w-full p-3 cursor-pointer hover:bg-neutral-1 lg:hidden lg:px-10">
                   Explore
                 </a>
               </Link>

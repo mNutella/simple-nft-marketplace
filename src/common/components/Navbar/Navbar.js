@@ -2,7 +2,7 @@ import Link from "next/link";
 import MetaMaskAuthForm from "@modules/metamask-auth/components/MetaMaskAuthForm";
 import WalletInfo from "@modules/wallet/components/WalletInfo";
 
-const Navbar = ({ account, balance, onWalletConnect, onDeactivate }) => {
+const Navbar = ({ account, balance, chainId, onWalletConnect, onDeactivate }) => {
   return (
     <nav className="sticky top-0 z-10 bg-black lg:h-[100px]">
       <div className="container flex items-center justify-between px-4 py-6 mx-auto lg:py-6">
@@ -23,9 +23,10 @@ const Navbar = ({ account, balance, onWalletConnect, onDeactivate }) => {
         </ul>
         <div className="lg:w-[283px] lg:h-[52px]">
           {!account && <MetaMaskAuthForm onWalletConnect={onWalletConnect} />}
-          {account && balance && (
+          {account && (
             <WalletInfo
               className="ml-auto"
+              chainId={chainId}
               account={account}
               balance={balance}
               onDeactivate={onDeactivate}

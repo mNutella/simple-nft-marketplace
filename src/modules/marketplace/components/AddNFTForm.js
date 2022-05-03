@@ -34,6 +34,12 @@ export default function AddNFTForm({ id, onProgress }) {
     }
   }, [state.status, reset, onProgress]);
 
+  useEffect(() => {
+    if (error) {
+      setLoading(false);
+    }
+  }, [error]);
+
   if (!account) return null;
 
   const handleFormSubmit = async (data) => {
@@ -45,8 +51,7 @@ export default function AddNFTForm({ id, onProgress }) {
   return (
     <div className="relative p-6 rounded-lg bg-neutral-1 lg:mx-auto lg:max-w-lg">
       {loading && (
-        <div className="absolute top-0 bottom-0 left-0 right-0 z-10 flex-col items-center justify-center bg-neutral-1 opacity-80">
-          <span>Wait a minute please</span>
+        <div className="absolute top-0 bottom-0 left-0 right-0 z-10 flex items-center justify-center bg-neutral-1 opacity-80">
           <Spinner className="w-10 h-10" />
         </div>
       )}
