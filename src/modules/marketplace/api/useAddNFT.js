@@ -38,6 +38,30 @@ export function useAddNFT() {
         inputs: [
           {
             internalType: "address",
+            name: "owner",
+            type: "address",
+          },
+          {
+            internalType: "address",
+            name: "operator",
+            type: "address",
+          },
+        ],
+        name: "isApprovedForAll",
+        outputs: [
+          {
+            internalType: "bool",
+            name: "",
+            type: "bool",
+          },
+        ],
+        stateMutability: "view",
+        type: "function",
+      },
+      {
+        inputs: [
+          {
+            internalType: "address",
             name: "operator",
             type: "address",
           },
@@ -60,7 +84,13 @@ export function useAddNFT() {
       library,
       account
     );
-    await contract.setApprovalForAll(MARKETPLACE_ADDRESS, true);
+
+    const isApproved = await contract.isApprovedForAll(
+      account,
+      MARKETPLACE_ADDRESS
+    );
+    !isApproved &&
+      (await contract.setApprovalForAll(MARKETPLACE_ADDRESS, true));
 
     await sendAddMarketplaceNFT(
       contractAddress,
