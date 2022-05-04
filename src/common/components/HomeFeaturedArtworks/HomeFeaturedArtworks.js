@@ -9,7 +9,7 @@ const HomeFeaturedArtworks = ({ items }) => {
   }
 
   return (
-    <section className="py-5 lg:py-10">
+    <section className="py-5 lg:py-20">
       <h2 className="text-4xl font-bold text-center lg:text-5xl">
         Featured Artworks
       </h2>

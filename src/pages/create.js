@@ -18,7 +18,7 @@ export default function CreatePage() {
         defaultIndex={defaultIndex}
         onChange={onTabChange}
       >
-        <Tab.List className="sticky top-[94px] mx-auto flex w-full justify-center bg-black p-2 text-xl">
+        <Tab.List className="sticky top-[94px] mx-auto flex w-full justify-center bg-black p-2 text-xl z-10">
           <Tab className="rounded-l-full bg-neutral-1">
             <div
               className={`rounded-full px-4 py-2 hover:bg-neutral-2 ${activeTabClassName(
