@@ -1,14 +1,13 @@
-import { Mainnet, Mumbai, Polygon } from "@usedapp/core";
+import { ChainId } from "@usedapp/core";
 
 export function getCurrency(chainId) {
   switch (chainId) {
-    case Polygon.chainId: {
+    case ChainId.Polygon:
+    case ChainId.Mumbai: {
       return "MATIC";
     }
-    case Mumbai.chainId: {
-      return "MATIC";
-    }
-    case Mainnet.chainId: {
+    case ChainId.Mainnet:
+    case ChainId.Localhost: {
       return "ETH";
     }
     default: {
