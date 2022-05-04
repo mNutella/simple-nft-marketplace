@@ -12,9 +12,10 @@ const MainLayout = ({ children, className, authorized }) => {
     account,
     balance,
     network,
+    error,
     activateWallet,
     deactivateWallet,
-  } = useAuth(authorized);
+  } = useAuth();
 
   return (
     <div className={className}>
@@ -33,7 +34,7 @@ const MainLayout = ({ children, className, authorized }) => {
       />
 
       <main className="container px-4 py-1 mx-auto lg:px-16">
-        {isWalletConnecting && (
+        {authorized && isWalletConnecting && (
           <div className="flex flex-col items-center justify-center space-y-2">
             <p className="text-lg text-white animate-pulse">
               Wallet is connecting
@@ -41,15 +42,17 @@ const MainLayout = ({ children, className, authorized }) => {
             <Spinner className="w-10 h-10" />
           </div>
         )}
-        {isWalletNotConnected && (
+        {authorized && isWalletNotConnected && (
           <p className="text-xl text-center">Please connect your wallet</p>
         )}
-        {isWalletConnected && children}
-        {}
+        {authorized && isWalletConnected && children}
+        {authorized && error && (
+          <p className="text-xl text-center">Something went wrong, try reconnect to Metamask</p>
+        )}
         {!authorized && children}
       </main>
 
-      <Footer className='lg:pb-10' />
+      <Footer className="lg:pb-10" />
     </div>
   );
 };
