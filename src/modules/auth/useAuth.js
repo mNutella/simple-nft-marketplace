@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useEtherBalance, useEthers, useNetwork } from "@usedapp/core";
 import { useUser } from "./context/context";
 
-export default function useAuth(authorized) {
+export default function useAuth() {
   const {
     account,
     active,
@@ -18,26 +18,33 @@ export default function useAuth(authorized) {
   const [isWalletNotConnected, setWalletNotConnected] = useState(true);
   const [isWalletConnecting, setWalletConnecting] = useState(false);
   const [isWalletConnected, setWalletConnected] = useState(false);
+  const [currentError, setCurrentError] = useState(null);
 
   useEffect(() => {
     setWalletNotConnected(
-      authorized &&
-        !account &&
+      !account &&
         ((!active && !signIn) || (active && !signIn)) &&
         !isLoading &&
-        !error
+        !currentError
     );
-    setWalletConnecting(authorized && signIn && isLoading && !error);
-    setWalletConnected(
-      !!(authorized && !isLoading && account && active && signIn && !error)
-    );
+    setWalletConnecting(signIn && isLoading && !currentError);
+    setWalletConnected(!!(!isLoading && account && active && signIn && !currentError));
 
-    if (!isLoading && account && active && !signIn && !error) {
+    if (!isLoading && account && active && !signIn && !currentError) {
       setSignIn(true);
     }
-  }, [authorized, account, active, isLoading, error, signIn]);
+    // console.log(!!account, active, isLoading, signIn, !!error, !!currentError)
+  }, [account, active, isLoading, signIn, currentError]);
+
+  useEffect(() => {
+    if (error && !account) {
+      setCurrentError(error)
+      setSignIn(false);
+    }
+  }, [error]);
 
   const handleLogIn = () => {
+    currentError && setCurrentError(null);
     activateBrowserWallet();
     setSignIn(true);
   };
@@ -52,7 +59,7 @@ export default function useAuth(authorized) {
     isWalletConnected,
     isWalletConnecting,
     isActive: active,
-    error,
+    error: currentError,
     account,
     balance,
     network,
