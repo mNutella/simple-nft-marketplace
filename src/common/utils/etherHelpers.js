@@ -103,8 +103,11 @@ export function getNetworks() {
   return networks;
 }
 
-export function isSameAccount(accountA, accountB) {
-  if (!accountA || !accountB) return false;
+export function isSameAccount(accountA, accountB, accountC) {
+  if (!accountA || !accountB || !accountC) return false;
 
-  return accountA.toLowerCase() === accountB.toLowerCase();
+  return (
+    accountA.toLowerCase() === accountB.toLowerCase() ||
+    accountA.toLowerCase() === accountC.toLowerCase()
+  );
 }

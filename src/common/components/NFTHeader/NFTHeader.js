@@ -10,7 +10,7 @@ import Spinner from "../SVGs/Spinner";
 
 import "react-medium-image-zoom/dist/styles.css";
 
-const NFTHeader = ({ nftData, currentAddress, onBuy }) => {
+const NFTHeader = ({ nftData, currentAddress, buyLoading, onBuy }) => {
   if (!nftData)
     return (
       <div className="flex flex-col items-center justify-center space-y-2">
@@ -49,9 +49,14 @@ const NFTHeader = ({ nftData, currentAddress, onBuy }) => {
           </div>
           <p className="text-lg text-neutral-4">{nftData?.description}</p>
           {currentAddress &&
-            !isSameAccount(currentAddress, nftData?.sellerAddress) && (
+            !isSameAccount(
+              currentAddress,
+              nftData?.sellerAddress,
+              nftData?.ownerAddress
+            ) && (
               <Button
                 className="w-full border-2 border-transparent bg-secondary px-8 py-3 text-white shadow-secondary/40 transition duration-150 hover:border-secondary hover:bg-transparent lg:w-auto"
+                loading={buyLoading}
                 onClick={onBuy}
               >
                 Buy

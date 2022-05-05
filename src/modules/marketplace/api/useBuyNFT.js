@@ -14,10 +14,12 @@ export function useBuyNFT() {
   } = useContractFunction(contract, "createMarketplaceSale", {
     transactionName: "saleNFT",
   });
-  const { inProgress, setInProgress, error } = useTransactionStatuses(state);
+  const { inProgress, setInProgress, error, success } =
+    useTransactionStatuses(state);
 
-  const buyNFT = async (nftAddress, price, itemId) => {
+  const buyNFT = async (nftAddress, itemId, price) => {
     setInProgress(true);
+
     await sendCreateMarketplaceSale(nftAddress, itemId, {
       value: parseEther(formatEther(price)),
     });
@@ -26,6 +28,7 @@ export function useBuyNFT() {
   return {
     inProgress,
     error,
+    success,
     state,
     buyNFT,
     resetState,
