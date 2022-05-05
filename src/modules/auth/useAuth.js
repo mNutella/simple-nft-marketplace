@@ -33,11 +33,10 @@ export default function useAuth() {
     if (!isLoading && account && active && !signIn && !currentError) {
       setSignIn(true);
     }
-    // console.log(!!account, active, isLoading, signIn, !!error, !!currentError)
-  }, [account, active, isLoading, signIn, currentError]);
+  }, [account, active, isLoading, signIn]);
 
   useEffect(() => {
-    if (error && !account) {
+    if (error && !account && signIn) {
       setCurrentError(error)
       setSignIn(false);
     }

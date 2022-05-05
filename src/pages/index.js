@@ -1,3 +1,11 @@
+import MainLayout from "@layouts/MainLayout";
+import DiscordCTA from "@common/components/DiscordCTA";
+import HomeFAQ from "@common/components/HomeFAQ";
+import HomeFeaturedArtworks from "@common/components/HomeFeaturedArtworks";
+import HomeHeader from "@common/components/HomeHeader";
+import HomeTopTraders from "@common/components/HomeTopTraders";
+import NewsletterCTA from "@common/components/NewsletterCTA";
+
 const HEADER_DATA = {
   id: 1,
   name: "M2 Mutant Serum",
@@ -31,28 +39,27 @@ const FAQ_DATA = [
     id: 1,
     title: "Create Artwork",
     description:
-      "Meet the Trade Wise team, trades and artists for platform updates, announcements, and more...",
-    image: "/images/home-faq-artwork.png",
-    link: '/create',
-    linkText: 'Create New NFT'
+      "Create your NFTs. Add name, description, image, price and more",
+    image: "/images/home-artwork.png",
+    link: "/create",
+    linkText: "Create NFT",
   },
   {
     id: 2,
     title: "Upload",
     description:
-      "Meet the Trade Wise team, trades and artists for platform updates, announcements, and more...",
-    image: "/images/home-faq-artwork.png",
-    link: '/create?type=add',
-    linkText: 'Add Existing NFT'
+      "Upload your work, customize your NFTs with properties, stats, and unlockable content",
+    image: "/images/home-upload.png",
+    link: "/create?type=add",
+    linkText: "Add NFT",
   },
   {
     id: 3,
     title: "Trade",
-    description:
-      "Meet the Trade Wise team, trades and artists for platform updates, announcements, and more...",
-    image: "/images/home-faq-artwork.png",
-    link: '/explore',
-    linkText: 'Explore'
+    description: "Set up and choose between auctions, fixed-price, listings, and declining-price listings",
+    image: "/images/home-trade.png",
+    link: "/explore",
+    linkText: "Explore",
   },
 ];
 
@@ -112,14 +119,6 @@ const TOP_TRADERS_DATA = [
     image: "/images/nft-1.jpg",
   },
 ];
-
-import MainLayout from "@layouts/MainLayout";
-import DiscordCTA from "@common/components/DiscordCTA";
-import HomeFAQ from "@common/components/HomeFAQ";
-import HomeFeaturedArtworks from "@common/components/HomeFeaturedArtworks";
-import HomeHeader from "@common/components/HomeHeader";
-import HomeTopTraders from "@common/components/HomeTopTraders";
-import NewsletterCTA from "@common/components/NewsletterCTA";
 
 export default function HomePage() {
   return (

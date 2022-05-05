@@ -18,10 +18,10 @@ const HomeFAQ = ({ items }) => {
         {items.map((item) => (
           <div
             key={item.title}
-            className="flex flex-col max-w-lg p-5 space-y-6 overflow-hidden text-center rounded-xl bg-neutral-1 lg:p-10"
+            className="flex flex-col max-w-lg p-5 space-y-6 overflow-hidden text-center rounded-xl bg-neutral-1 lg:justify-between lg:p-10 lg:h-full"
           >
-            <div>
-              <div className="relative mx-auto w-full max-w-[200px] lg:max-w-[300px]">
+            <div className="space-y-2">
+              <div className="relative mx-auto w-full max-w-[200px]">
                 <Image
                   className="rounded-xl"
                   layout="responsive"

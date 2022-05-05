@@ -14,7 +14,7 @@ export function useGetItems() {
 
   if (error) {
     console.error("Error", error.message);
-    return undefined;
+    return { error, data: [] };
   }
 
   return { error, data: value?.[0] };

@@ -22,7 +22,7 @@ export default function WalletInfo({
           objectFit="cover"
           objectPosition="center"
           alt="The top NFT image"
-          src={"/images/nft-1.jpg"}
+          src="/images/avatar.png"
         />
         <Popover className="relative">
           <Popover.Button className="h-full px-4 py-3 rounded-full cursor-pointer hover:bg-neutral-1">
