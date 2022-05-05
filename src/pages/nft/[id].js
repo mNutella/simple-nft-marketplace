@@ -8,8 +8,8 @@ import { getIPFSFileUrl } from "@common/utils/ipfsHelpers";
 import { useEthers } from "@usedapp/core";
 
 export default function NFTPage() {
-  const { query } = useRouter();
-  const { id } = query;
+  const router = useRouter();
+  const { id } = router.query;
   const { data: nftData } = useGetItem(id);
   const { account } = useEthers();
   const [data, setData] = useState(null);
@@ -35,6 +35,7 @@ export default function NFTPage() {
   useEffect(() => {
     if (success && account) {
       setData((prev) => ({ ...prev, ownerAddress: account }));
+      router.replace("/explore");
     }
   }, [success]);
 

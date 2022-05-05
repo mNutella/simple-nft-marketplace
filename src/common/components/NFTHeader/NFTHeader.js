@@ -14,13 +14,13 @@ const NFTHeader = ({ nftData, currentAddress, buyLoading, onBuy }) => {
   if (!nftData)
     return (
       <div className="flex flex-col items-center justify-center space-y-2">
-        <Spinner className="w-10 h-10" />
+        <Spinner className="h-10 w-10" />
       </div>
     );
 
   return (
-    <section className="flex flex-col h-full py-5 lg:flex-row lg:space-y-0 lg:py-10">
-      <div className="flex items-center justify-center order-2 mt-6 lg:order-1 lg:mt-0 lg:basis-1/2">
+    <section className="flex h-full flex-col py-5 lg:flex-row lg:space-y-0 lg:py-10">
+      <div className="order-2 mt-6 flex items-center justify-center lg:order-1 lg:mt-0 lg:basis-1/2">
         <div className="w-full space-y-6 lg:max-w-md lg:space-y-12">
           <div className="flex flex-col">
             <p className="whitespace-nowrap">Last seller</p>
@@ -32,7 +32,7 @@ const NFTHeader = ({ nftData, currentAddress, buyLoading, onBuy }) => {
             >
               <a
                 target="_blank"
-                className="w-full underline truncate cursor-pointer text-secondary hover:text-primary"
+                className="w-full cursor-pointer truncate text-secondary underline hover:text-primary"
               >
                 {nftData?.sellerAddress}
               </a>
@@ -41,7 +41,7 @@ const NFTHeader = ({ nftData, currentAddress, buyLoading, onBuy }) => {
           <h1 className="text-2xl font-bold lg:text-3xl">{nftData?.name}</h1>
           <div className="space-y-2">
             <div className="flex items-center space-x-2">
-              <PolygonIcon className="w-5 h-5 text-secondary lg:h-7 lg:w-7" />
+              <PolygonIcon className="h-5 w-5 text-secondary lg:h-7 lg:w-7" />
               <p className="text-xl lg:text-2xl">
                 {nftData?.price && formatEther(nftData.price)}
               </p>
@@ -53,9 +53,10 @@ const NFTHeader = ({ nftData, currentAddress, buyLoading, onBuy }) => {
               currentAddress,
               nftData?.sellerAddress,
               nftData?.ownerAddress
-            ) && (
+            ) &&
+            nftData?.id > 3 && (
               <Button
-                className="w-full px-8 py-3 text-white transition duration-150 border-2 border-transparent bg-secondary shadow-secondary/40 hover:border-secondary hover:bg-transparent lg:w-auto"
+                className="w-full border-2 border-transparent bg-secondary px-8 py-3 text-white shadow-secondary/40 transition duration-150 hover:border-secondary hover:bg-transparent lg:w-auto"
                 loading={buyLoading}
                 onClick={onBuy}
               >
@@ -65,7 +66,7 @@ const NFTHeader = ({ nftData, currentAddress, buyLoading, onBuy }) => {
         </div>
       </div>
       <div className="order-1 lg:order-2 lg:basis-1/2 lg:p-10">
-        <div className="p-5 space-y-2 rounded-xl bg-neutral-1 lg:max-w-lg">
+        <div className="space-y-2 rounded-xl bg-neutral-1 p-5 lg:max-w-lg">
           <Zoom
             wrapStyle={{ minWidth: "100%", display: "flex" }}
             overlayBgColorEnd="#0a0a0a"
