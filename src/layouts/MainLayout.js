@@ -3,6 +3,7 @@ import Navbar from "@common/components/Navbar";
 import Footer from "@common/components/Footer";
 import Spinner from "@common/components/SVGs/Spinner";
 import useAuth from "@modules/auth/useAuth";
+import Alert from "@common/components/Alert";
 
 const MainLayout = ({ children, className, authorized }) => {
   const {
@@ -18,20 +19,25 @@ const MainLayout = ({ children, className, authorized }) => {
   } = useAuth();
 
   return (
-    <div className={className}>
+    <div className={`relative ${className}`}>
       <Head>
         <title>Simple NFT Marketplace</title>
         <meta name="description" content="simple nft marketplace" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Navbar
-        account={account}
-        balance={balance}
-        chainId={network?.chainId}
-        onWalletConnect={activateWallet}
-        onDeactivate={deactivateWallet}
-      />
+      <div className="sticky top-0 z-20">
+        <Navbar
+          account={account}
+          balance={balance}
+          chainId={network?.chainId}
+          onWalletConnect={activateWallet}
+          onDeactivate={deactivateWallet}
+        />
+        {authorized && (
+          <Alert content="Currently we support only freeze OpenSea NFTs" />
+        )}
+      </div>
 
       <main className="container px-4 py-1 mx-auto lg:px-16">
         {authorized && isWalletConnecting && (
@@ -47,7 +53,9 @@ const MainLayout = ({ children, className, authorized }) => {
         )}
         {authorized && isWalletConnected && children}
         {authorized && error && (
-          <p className="text-xl text-center">Something went wrong, try reconnect to Metamask</p>
+          <p className="text-xl text-center">
+            Something went wrong, try reconnect to Metamask
+          </p>
         )}
         {!authorized && children}
       </main>

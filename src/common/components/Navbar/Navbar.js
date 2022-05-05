@@ -4,7 +4,7 @@ import WalletInfo from "@modules/wallet/components/WalletInfo";
 
 const Navbar = ({ account, balance, chainId, onWalletConnect, onDeactivate }) => {
   return (
-    <nav className="sticky top-0 z-10 bg-black lg:h-[100px]">
+    <nav className="bg-black lg:h-[100px]">
       <div className="container flex items-center justify-between px-4 py-6 mx-auto lg:py-6">
         <Link href="/">
           <a className="text-3xl font-bold">Trade Wise</a>
