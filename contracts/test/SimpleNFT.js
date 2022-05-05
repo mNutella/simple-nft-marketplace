@@ -750,9 +750,12 @@ contract("SimpleNFT & SimpleMarketplace", async function (accounts) {
 /// truffle deploy --compile-none --network matic
 ///
 /// truffle console --network matic
-/// (await SimpleMarketplace.deployed()).setSimpleNFTAddress((await SimpleNFT.deployed()).address);
-/// (await SimpleNFT.deployed()).grantRole("0x9f2df0fed2c77648de5860a4cc508cd0818c85b8b8a1ab4ceeef8d981c8956a6", (await SimpleMarketplace.deployed()).address);
+// var nft = new web3.eth.Contract([{"inputs":[{"internalType":"bytes32","name":"role","type":"bytes32"},{"internalType":"address","name":"account","type":"address"}],"name":"hasRole","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"}, {"inputs":[{"internalType":"bytes32","name":"role","type":"bytes32"},{"internalType":"address","name":"account","type":"address"}],"name":"grantRole","outputs":[],"stateMutability":"nonpayable","type":"function"}], "0x322059a897647c4342177337E960232d10E874d6");
+// nft.methods.grantRole("0x9f2df0fed2c77648de5860a4cc508cd0818c85b8b8a1ab4ceeef8d981c8956a6", "0x4a0289186149887C82f67f76d750E09d08Be7110").send({from: accounts[0]}).then(console.log);
+// nft.methods.hasRole("0x9f2df0fed2c77648de5860a4cc508cd0818c85b8b8a1ab4ceeef8d981c8956a6", "0x4a0289186149887C82f67f76d750E09d08Be7110").call({from: accounts[0]}).then(console.log);
+// var market = new web3.eth.Contract([{"inputs":[{"internalType":"address","name":"simpeNFT","type":"address"}],"name":"setSimpleNFTAddress","outputs":[],"stateMutability":"nonpayable","type":"function"}], "0x4a0289186149887C82f67f76d750E09d08Be7110");
+// market.methods.setSimpleNFTAddress("0x322059a897647c4342177337E960232d10E874d6").send({from: accounts[0]}).then(console.log);
 ///
 /// .env
-///
+/// nft 0x322059a897647c4342177337E960232d10E874d6  market  0x4a0289186149887C82f67f76d750E09d08Be7110
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
