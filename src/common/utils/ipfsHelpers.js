@@ -1,5 +1,5 @@
 export function getIPFSFileUrl(url) {
-  if (url.startsWith("https://ipfs.io/ipfs/")) {
+  if (!url || url.startsWith("https://ipfs.io/ipfs/")) {
     return url;
   }
 

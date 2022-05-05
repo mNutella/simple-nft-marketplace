@@ -38,7 +38,7 @@ const NFTHeader = ({ nftData, currentAddress, buyLoading, onBuy }) => {
               </a>
             </Link>
           </div>
-          <h1 className="text-2xl font-bold lg:text-3xl">{nftData?.name}</h1>
+          <h1 className="text-2xl font-bold lg:text-3xl">{`${nftData?.name} #${nftData?.id}`}</h1>
           <div className="space-y-2">
             <div className="flex items-center space-x-2">
               <PolygonIcon className="h-5 w-5 text-secondary lg:h-7 lg:w-7" />

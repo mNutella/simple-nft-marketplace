@@ -18,12 +18,12 @@ export default function NFTPage() {
   useEffect(() => {
     if (nftData) {
       (async () => {
-        const metaInfo = await (await fetch(nftData[7])).json();
+        const metaInfo = await (await fetch(getIPFSFileUrl(nftData[7]))).json();
         setData({
           id: nftData[0].toString(),
           name: metaInfo?.name,
           price: nftData[5],
-          image: getIPFSFileUrl(metaInfo?.origin),
+          image: getIPFSFileUrl(metaInfo?.origin ?? metaInfo["image_url"]),
           sellerAddress: nftData[3],
           ownerAddress: nftData[4],
           description: metaInfo?.description,
