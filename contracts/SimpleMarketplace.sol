@@ -232,7 +232,7 @@ contract SimpleMarketplace is
         returns (MarketplaceItem memory)
     {
         MarketplaceItem memory item = _idToMarketplaceItem[itemId];
-        if (item.itemId == itemId) return item;
+        if (item.itemId == itemId && !item.sold) return item;
         revert("Item not found");
     }
 

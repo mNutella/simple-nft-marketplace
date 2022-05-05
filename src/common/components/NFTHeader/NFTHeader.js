@@ -23,7 +23,7 @@ const NFTHeader = ({ nftData, currentAddress, buyLoading, onBuy }) => {
       <div className="order-2 mt-6 flex items-center justify-center lg:order-1 lg:mt-0 lg:basis-1/2">
         <div className="w-full space-y-6 lg:max-w-md lg:space-y-12">
           <div className="flex flex-col">
-            <p className="whitespace-nowrap">Owned by</p>
+            <p className="whitespace-nowrap">Last seller</p>
             <Link
               href={getExplorerAddressLink(
                 nftData?.sellerAddress,
