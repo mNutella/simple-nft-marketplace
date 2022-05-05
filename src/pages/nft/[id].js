@@ -1,18 +1,38 @@
+import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 import NFTHeader from "@common/components/NFTHeader";
 import MainLayout from "@layouts/MainLayout";
-
-const NFT_DATA = {
-  id: 1,
-  name: "M2 Mutant Serum",
-  price: 69,
-  image: "/images/nft-1.jpg",
-  ownerAddress: "0x076009BEd79A61e6c4c3DBFF660b352b3Ffb743E",
-};
+import { useGetItem } from "@modules/marketplace/api/useGetItem";
+import { getIPFSFileUrl } from "@common/utils/ipfsHelpers";
 
 export default function NFTPage() {
+  const { query } = useRouter();
+  const { id } = query;
+  const { data: nftData } = useGetItem(id);
+  const [data, setData] = useState({});
+
+  useEffect(() => {
+    // console.log(id, nftData);
+    if (nftData) {
+      (async () => {
+        try {
+          const metaInfo = await (await fetch(nftData[7])).json();
+          console.log(metaInfo);
+          setData({
+            id: nftData[0].toString(),
+            name: metaInfo?.name,
+            price: nftData[5],
+            image: getIPFSFileUrl(metaInfo?.origin),
+            sellerAddress: nftData[3],
+          });
+        } catch (error) {}
+      })();
+    }
+  }, [nftData]);
+
   return (
     <MainLayout className="lg:flex lg:h-screen lg:flex-col lg:justify-between">
-      <NFTHeader nftData={NFT_DATA} />
+      <NFTHeader nftData={data} />
     </MainLayout>
   );
 }

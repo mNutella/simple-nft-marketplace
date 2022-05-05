@@ -225,6 +225,17 @@ contract SimpleMarketplace is
         return items;
     }
 
+    // returns the item by id
+    function fetchMarketplaceItem(uint256 itemId)
+        external
+        view
+        returns (MarketplaceItem memory)
+    {
+        MarketplaceItem memory item = _idToMarketplaceItem[itemId];
+        if (item.itemId == itemId) return item;
+        revert("Item not found");
+    }
+
     // returns only items that a user has purchased
     function fetchMyNFTs() external view returns (MarketplaceItem[] memory) {
         uint256 totalItemCount = _items.current();
