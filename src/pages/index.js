@@ -8,29 +8,29 @@ import NewsletterCTA from "@common/components/NewsletterCTA";
 
 const HEADER_DATA = {
   id: 1,
-  name: "M2 Mutant Serum",
-  price: 69,
-  image: "/images/nft-1.jpg",
+  name: "Dope Apes #1",
+  price: 0.005,
+  image: "/images/nft-1.webp",
 };
 
 const FEAT_ARTWORKS_DATA = [
   {
-    id: 1,
-    name: "M1 Mutant Serum",
-    price: 0.005,
-    image: "/images/nft-1.jpg",
+    id: 2,
+    name: "Dope Apes #2",
+    price: 0.0008,
+    image: "/images/nft-2.webp",
   },
   {
-    id: 2,
-    name: "M2 Mutant Serum",
-    price: 55,
-    image: "/images/nft-2.jpg",
+    id: 1,
+    name: "Dope Apes #1",
+    price: 0.005,
+    image: "/images/nft-1.webp",
   },
   {
     id: 3,
-    name: "M2 Mutant Serum",
-    price: 999,
-    image: "/images/nft-3.jpg",
+    name: "Dope Apes #3",
+    price: 0.01,
+    image: "/images/nft-3.webp",
   },
 ];
 
