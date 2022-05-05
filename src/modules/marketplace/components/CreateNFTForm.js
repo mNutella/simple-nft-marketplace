@@ -19,7 +19,7 @@ const initFormValues = {
   file: undefined,
 };
 
-export default function CreateNFTForm({ id, onProgress }) {
+export default function CreateNFTForm({ id }) {
   const { account } = useEthers();
   const { state, error, setError, createNFT } = useCreateNFT(account);
   const { uploadData } = useIPFSApi();
@@ -51,7 +51,7 @@ export default function CreateNFTForm({ id, onProgress }) {
       reset({ ...initFormValues });
       setLoading(false);
     }
-  }, [state.status, reset, onProgress]);
+  }, [state.status, reset]);
 
   useEffect(() => {
     if (error) {

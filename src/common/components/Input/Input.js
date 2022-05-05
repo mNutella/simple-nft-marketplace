@@ -3,7 +3,7 @@ import FileInput from "./FileInput";
 
 const Input = React.forwardRef(
   ({ id, label, type, value, helper, error, ...rest }, ref) => {
-    const className = `bg-neutral-2 text-white border rounded-lg focus:ring-blue-500 block w-full focus:ring-blue-500 focus:border-blue-500 ${
+    const className = `bg-neutral-2 text-white border rounded-lg block w-full focus:ring-blue-500 focus:border-blue-500 ${
       error
         ? "border-red-500 placeholder-red-500"
         : "border-primary focus:border-blue-500 placeholder-neutral-3"

@@ -1,17 +1,13 @@
 import React, { useEffect, useState } from "react";
+import Link from "next/link";
 import Image from "next/image";
 import { formatEther } from "@ethersproject/units";
 import PolygonIcon from "@common/components/SVGs/PolygonIcon";
-import Button from "@common/components/Button";
 import { getIPFSFileUrl } from "@common/utils/ipfsHelpers";
-import { isSameAccount } from "@common/utils/etherHelpers";
 
 export default function GridListItem({
   metaInfoHash,
-  currentAddress,
-  sellerAddress,
   itemId,
-  tokenId,
   price,
   contractAddress,
   onBuy,
@@ -26,9 +22,9 @@ export default function GridListItem({
       setLoading(true);
 
       try {
-        const data = await (await fetch(metaInfoHash)).json();
+        const data = await (await fetch(getIPFSFileUrl(metaInfoHash))).json();
         setName(data?.name);
-        setThumbnailUrl(getIPFSFileUrl(data?.thumbnail));
+        setThumbnailUrl(getIPFSFileUrl(data?.thumbnail ?? data["image_url"]));
       } catch (error) {
         setError(true);
       }
@@ -44,38 +40,34 @@ export default function GridListItem({
   };
 
   return (
-    <div className="w-full bg-white rounded-lg border border-gray-200 shadow-md cursor-pointer dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-900 group transition duration-300 ease-in-out hover:scale-105">
-      <>
-        {thumbnailUrl && (
-          <Image
-            className="rounded-t-lg"
-            src={thumbnailUrl}
-            width="100%"
-            height="100%"
-            layout="responsive"
-            objectFit="cover"
-            alt={name + " image"}
-          />
-        )}
-        <div className="p-5">
-          <h5 className="mb-2 text-xl font-bold tracking-tight text-gray-900 cursor-text dark:text-white">
-            {name} #{itemId.toString()}
-          </h5>
-          <div className="inline-flex items-center py-1 px-2 cursor-text text-sm font-medium text-center text-white bg-gray-300 rounded-lg dark:bg-gray-700 transition duration-300 group-hover:bg-gray-800 mb-2">
-            {formatEther(price)}
-            <span className="ml-2 w-4">
-              <PolygonIcon className="fill-blue-400" />
-            </span>
+    <Link href={`/nft/${itemId}`}>
+      <a>
+        <div className="p-5 space-y-2 transition duration-300 cursor-pointer rounded-xl bg-neutral-1 hover:scale-101 hover:bg-neutral-2 lg:max-w-lg">
+          <div className="relative w-full h-full">
+            {thumbnailUrl && (
+              <Image
+                className="rounded-xl"
+                layout="responsive"
+                height={326}
+                width={326}
+                objectFit="cover"
+                objectPosition="center"
+                alt={name + " image"}
+                src={thumbnailUrl}
+              />
+            )}
           </div>
-          {!isSameAccount(currentAddress, sellerAddress) && (
-            <div className="w-full">
-              <Button appendClassName="w-full text-center" onClick={handleBuyClick}>
-                <span className="w-full">Buy</span>
-              </Button>
+          <div className="space-y-2">
+            <p className="text-lg font-medium truncate">
+              {name} #{itemId.toString()}
+            </p>
+            <div className="flex items-center space-x-2">
+              <PolygonIcon className="w-5 h-5 text-secondary" />
+              <p className="text-md">{formatEther(price)}</p>
             </div>
-          )}
+          </div>
         </div>
-      </>
-    </div>
+      </a>
+    </Link>
   );
 }
