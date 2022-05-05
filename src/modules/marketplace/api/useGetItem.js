@@ -13,10 +13,5 @@ export function useGetItem(itemId) {
         args: [Number(itemId)],
       }
     ) ?? {};
-
-  if (error) {
-    console.error("Error", error.message);
-    return undefined;
-  }
   return { error, data: value?.[0] };
 }
