@@ -750,10 +750,8 @@ contract("SimpleNFT & SimpleMarketplace", async function (accounts) {
 /// truffle deploy --compile-none --network matic
 ///
 /// truffle console --network matic
-/// const marketplace = await SimpleMarketplace.deployed();
-/// marketplace.setSimpleNFTAddress("0x8aeE3cdeD117De523bDE77B8de71EdcDFc1cf3EF");
-/// const nft = await SimpleNFT.deployed();
-/// nft.grantRole("0x9f2df0fed2c77648de5860a4cc508cd0818c85b8b8a1ab4ceeef8d981c8956a6", "0xF9ffDdD0b3de35da9C5F24970081f4a5CdaA3ce5");
+/// (await SimpleMarketplace.deployed()).setSimpleNFTAddress((await SimpleNFT.deployed()).address);
+/// (await SimpleNFT.deployed()).grantRole("0x9f2df0fed2c77648de5860a4cc508cd0818c85b8b8a1ab4ceeef8d981c8956a6", (await SimpleMarketplace.deployed()).address);
 ///
 /// .env
 ///

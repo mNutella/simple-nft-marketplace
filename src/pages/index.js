@@ -40,7 +40,7 @@ const FAQ_DATA = [
     title: "Create Artwork",
     description:
       "Create your NFTs. Add name, description, image, price and more",
-    image: "/images/home-artwork.png",
+    image: "/images/home-artwork.webp",
     link: "/create",
     linkText: "Create NFT",
   },
@@ -49,15 +49,16 @@ const FAQ_DATA = [
     title: "Upload",
     description:
       "Upload your work, customize your NFTs with properties, stats, and unlockable content",
-    image: "/images/home-upload.png",
+    image: "/images/home-upload.webp",
     link: "/create?type=add",
     linkText: "Add NFT",
   },
   {
     id: 3,
     title: "Trade",
-    description: "Set up and choose between auctions, fixed-price, listings, and declining-price listings",
-    image: "/images/home-trade.png",
+    description:
+      "Set up and choose between auctions, fixed-price, listings, and declining-price listings",
+    image: "/images/home-trade.webp",
     link: "/explore",
     linkText: "Explore",
   },
