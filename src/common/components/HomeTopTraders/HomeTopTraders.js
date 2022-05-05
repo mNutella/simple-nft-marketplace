@@ -12,20 +12,20 @@ const HomeTopTraders = ({ items }) => {
 
   return (
     <section className="py-5 lg:py-20">
-      <h2 className="text-center text-4xl font-bold lg:text-5xl">
+      <h2 className="text-4xl font-bold text-center lg:text-5xl">
         Top Traders This Week
       </h2>
 
-      <div className="mt-10 flex flex-col space-y-4 lg:grid lg:grid-cols-3 lg:gap-3 lg:space-y-0">
+      <div className="flex flex-col mt-10 space-y-4 lg:grid lg:grid-cols-3 lg:gap-3 lg:space-y-0">
         {items.map((item) => (
           <Link
             key={item?.id}
             href={getExplorerAddressLink(item?.address, Mumbai.chainId)}
           >
-            <a>
+            <a href="_blank">
               <div
                 key={item.key}
-                className="flex space-x-4 overflow-hidden rounded-xl bg-neutral-1 p-5 transition duration-150 hover:scale-101 hover:bg-neutral-2"
+                className="flex p-5 space-x-4 overflow-hidden transition duration-150 rounded-xl bg-neutral-1 hover:scale-101 hover:bg-neutral-2"
               >
                 <div className="relative h-[65px] w-[65px]">
                   <Image
@@ -40,11 +40,11 @@ const HomeTopTraders = ({ items }) => {
                   />
                 </div>
                 <div className="space-y-2">
-                  <p className="break-words text-lg font-medium line-clamp-1">
+                  <p className="text-lg font-medium break-words line-clamp-1">
                     {cropAddress(item?.address, 10, 5)}
                   </p>
                   <div className="flex items-center space-x-2">
-                    <PolygonIcon className="h-5 w-5 text-secondary" />
+                    <PolygonIcon className="w-5 h-5 text-secondary" />
                     <p className="text-md">{item?.budget}</p>
                   </div>
                 </div>
