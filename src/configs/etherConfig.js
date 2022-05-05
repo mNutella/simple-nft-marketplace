@@ -1,10 +1,21 @@
-import { getMulticallAddresses, getReadOnlyUrls } from "@common/utils/etherHelpers";
-import { Mumbai } from "@usedapp/core";
+import {
+  getMulticallAddresses,
+  getNetworks,
+  getReadOnlyChainId,
+  getReadOnlyUrls,
+} from "@common/utils/etherHelpers";
+
+console.log(
+  getReadOnlyChainId(),
+  getMulticallAddresses(),
+  getReadOnlyUrls(),
+  getNetworks()
+);
 
 export const config = {
-  readOnlyChainId: Mumbai.chainId,
+  readOnlyChainId: getReadOnlyChainId(),
   multicallAddresses: getMulticallAddresses(),
   readOnlyUrls: getReadOnlyUrls(),
-  networks: [Mumbai],
+  networks: getNetworks(),
   transactionPath: "transactions",
 };

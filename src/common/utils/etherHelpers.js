@@ -1,12 +1,10 @@
-import { ChainId } from "@usedapp/core";
+import { ChainId, Localhost, Mumbai } from "@usedapp/core";
 import { isDevelopment } from "./coreHelpers";
 
 export function getMulticallAddresses() {
   const networkIds = process.env.NEXT_PUBLIC_NETWORK_IDS.split(",");
   const multicallAddresses =
     process.env.NEXT_PUBLIC_MULTICALL_CONTRACT_ADDRESSES.split(",");
-
-  if (!networkIds?.length || !multicallAddresses?.length) return;
 
   let config = {};
 
@@ -18,7 +16,10 @@ export function getMulticallAddresses() {
     };
   }
 
-  if (networkIds.includes(ChainId.Mumbai.toString())) {
+  if (
+    networkIds?.includes(ChainId.Mumbai.toString()) &&
+    networkIds?.indexOf(ChainId.Mumbai.toString() !== -1)
+  ) {
     config = {
       ...config,
       [ChainId.Mumbai]:
@@ -26,7 +27,10 @@ export function getMulticallAddresses() {
     };
   }
 
-  if (networkIds.includes(ChainId.Polygon.toString())) {
+  if (
+    networkIds?.includes(ChainId.Polygon.toString()) &&
+    networkIds?.indexOf(ChainId.Polygon.toString())
+  ) {
     config = {
       ...config,
       [ChainId.Polygon]:
@@ -41,8 +45,6 @@ export function getReadOnlyUrls() {
   const networkIds = process.env.NEXT_PUBLIC_NETWORK_IDS.split(",");
   const providerUrls = process.env.NEXT_PUBLIC_PROVIDER_URLS.split(",");
 
-  if (!networkIds?.length || !providerUrls?.length) return;
-
   let config = {};
 
   if (isDevelopment()) {
@@ -53,8 +55,8 @@ export function getReadOnlyUrls() {
   }
 
   if (
-    networkIds.includes(ChainId.Mumbai.toString()) &&
-    providerUrls[networkIds.indexOf(ChainId.Mumbai.toString())]
+    networkIds?.includes(ChainId.Mumbai.toString()) &&
+    networkIds?.indexOf(ChainId.Mumbai.toString() !== -1)
   ) {
     config = {
       ...config,
@@ -64,8 +66,8 @@ export function getReadOnlyUrls() {
   }
 
   if (
-    networkIds.includes(ChainId.Polygon.toString()) &&
-    providerUrls[networkIds.indexOf(ChainId.Polygon.toString())]
+    networkIds?.includes(ChainId.Polygon.toString()) &&
+    networkIds?.indexOf(ChainId.Polygon.toString() !== -1)
   ) {
     config = {
       ...config,
@@ -75,6 +77,30 @@ export function getReadOnlyUrls() {
   }
 
   return config;
+}
+
+export function getReadOnlyChainId() {
+  if (!process.env.NEXT_PUBLIC_READ_ONLY_ID) return;
+
+  return Number(process.env.NEXT_PUBLIC_READ_ONLY_ID);
+}
+
+export function getNetworks() {
+  const networkIds = process.env.NEXT_PUBLIC_NETWORK_IDS.split(",");
+  const networks = [];
+
+  if (isDevelopment()) {
+    networks.push(Localhost);
+  }
+
+  if (
+    networkIds?.includes(ChainId.Mumbai.toString()) &&
+    networkIds?.indexOf(ChainId.Mumbai.toString() !== -1)
+  ) {
+    networks.push(Mumbai);
+  }
+
+  return networks;
 }
 
 export function isSameAccount(accountA, accountB) {
