@@ -35,25 +35,25 @@ const MainLayout = ({ children, className, authorized }) => {
           onDeactivate={deactivateWallet}
         />
         {authorized && (
-          <Alert content="Currently we support only freeze OpenSea NFTs" />
+          <Alert content="Only ❄️ OpenSea NFT is currently supported" />
         )}
       </div>
 
-      <main className="container px-4 py-1 mx-auto lg:px-16">
+      <main className="container mx-auto px-4 py-1 lg:px-16">
         {authorized && isWalletConnecting && (
           <div className="flex flex-col items-center justify-center space-y-2">
-            <p className="text-lg text-white animate-pulse">
+            <p className="animate-pulse text-lg text-white">
               Wallet is connecting
             </p>
-            <Spinner className="w-10 h-10" />
+            <Spinner className="h-10 w-10" />
           </div>
         )}
         {authorized && isWalletNotConnected && (
-          <p className="text-xl text-center">Please connect your wallet</p>
+          <p className="text-center text-xl">Please connect your wallet</p>
         )}
         {authorized && isWalletConnected && children}
         {authorized && error && (
-          <p className="text-xl text-center">
+          <p className="text-center text-xl">
             Something went wrong, try reconnect to Metamask
           </p>
         )}
