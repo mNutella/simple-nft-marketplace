@@ -22,7 +22,7 @@ const HomeTopTraders = ({ items }) => {
             key={item?.id}
             href={getExplorerAddressLink(item?.address, Mumbai.chainId)}
           >
-            <a href="_blank">
+            <a target="_blank">
               <div
                 key={item.key}
                 className="flex p-5 space-x-4 overflow-hidden transition duration-150 rounded-xl bg-neutral-1 hover:scale-101 hover:bg-neutral-2"
