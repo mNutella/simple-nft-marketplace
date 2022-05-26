@@ -1,4 +1,6 @@
-This is a simple boilerplate for nft marketplace
+This is a simple boilerplate for NFT marketplace (Ethereum/Polygon).
+
+Only _own_ and _frozen_ OpenSea's NFTs are supported.
 
 ## Getting Started
 
@@ -11,6 +13,10 @@ yarn dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Publish 3 first NFTs from here (they are mocked on the _landing_ page and shouldn't be sold):
+- /public/images/nft-1.webp
+- /public/images/nft-2.webp
+- /public/images/nft-3.webp
 
 [API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello).
 
