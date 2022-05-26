@@ -1,6 +1,6 @@
-This is a simple boilerplate for NFT marketplace (Ethereum/Polygon).
+This is a simple boilerplate for an NFT marketplace (Ethereum/Polygon).
 
-Only _own_ and _frozen_ OpenSea's NFTs are supported.
+Only _own_ and _frozen_ OpenSea NFT are supported.
 
 ## Getting Started
 
@@ -13,7 +13,8 @@ yarn dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-Publish 3 first NFTs from here (they are mocked on the _landing_ page and shouldn't be sold):
+
+Publish 3 first NFTs (they are mocked on the _landing_ page and shouldn't be sold):
 - /public/images/nft-1.webp
 - /public/images/nft-2.webp
 - /public/images/nft-3.webp
