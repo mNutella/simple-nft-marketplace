@@ -2,6 +2,7 @@
 pragma solidity ^0.8.2;
 
 import "@openzeppelin/contracts/utils/Counters.sol";
+import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 import "@openzeppelin/contracts/utils/introspection/ERC165Checker.sol";
@@ -20,10 +21,11 @@ contract SimpleMarketplace is
     Counters.Counter private _items;
     Counters.Counter private _soldItems;
 
+    using SafeMath for uint256;
+
     using ERC165Checker for address;
 
     address payable private _owner;
-    uint256 private constant _listingPrice = 0.0007 ether;
 
     mapping(uint256 => MarketplaceItem) private _idToMarketplaceItem;
     mapping(string => bool) private _marketplaceItemUrls;
@@ -61,19 +63,33 @@ contract SimpleMarketplace is
         _simpleNFT = SimpleNFT(simpeNFT);
     }
 
-    // returns the listing price of the contract
-    function getListingPrice() external pure returns (uint256) {
-        return _listingPrice;
+    // returns the 2.5% (marketplace fee) of the price
+    function getMarketplaceFee(uint256 price) private pure returns (uint256) {
+        (bool mulSucceed, uint256 mulResult) = price.tryMul(25);
+        require(mulSucceed, "Price exceeds the limits");
+
+        (bool divSucceed, uint256 divResult) = mulResult.tryDiv(1000);
+        require(divSucceed, "Fee exceeds the limits");
+
+        return divResult;
+    }
+
+    // returns the 97.5% (seller's reward) of the price
+    function getSellerReward(uint256 price) private pure returns (uint256) {
+        uint256 fee = getMarketplaceFee(price);
+        uint256 sellerReward = price.sub(fee);
+        return sellerReward;
     }
 
     // mints an nft and places for sale on marketplace
-    function createMarketplaceNFT(string memory uri, uint256 price)
-        external
-        payable
-    {
-        // TEMPRORARY // upgrade erc721 to erc1155 OR deploy diff users' collection into diff erc721 contracts (old behaviour - check commits)
-        uint256 createdTokenId = _simpleNFT.safeMint(address(this), uri);
+    function createMarketplaceNFT(string memory uri, uint256 price) external {
+        uint256 createdTokenId = mintNFT(uri);
         createMarketplaceItem(address(_simpleNFT), createdTokenId, price);
+    }
+
+    function mintNFT(string memory uri) private returns (uint256) {
+        // TEMP: upgrade erc721 to erc1155 OR deploy diff users' collection into diff erc721 contracts (old behaviour - check commits)
+        return _simpleNFT.safeMint(address(this), uri);
     }
 
     // places an item for sale on the marketplace
@@ -81,12 +97,8 @@ contract SimpleMarketplace is
         address nftContract,
         uint256 tokenId,
         uint256 price
-    ) public payable nonReentrant {
+    ) public {
         require(price > 0, "Price must be at least 1 wei");
-        require(
-            msg.value == _listingPrice,
-            "Price must be equal to Listing Price"
-        );
         require(
             nftContract.supportsInterface(type(IERC165).interfaceId),
             "Contract must implement IERC165"
@@ -135,8 +147,6 @@ contract SimpleMarketplace is
         );
         _marketplaceItemUrls[uri] = true;
 
-        payable(_owner).transfer(_listingPrice);
-
         emit MarketplaceItemChanged(
             itemId,
             nftContract,
@@ -166,7 +176,16 @@ contract SimpleMarketplace is
             "You are the seller of this item"
         );
 
-        _idToMarketplaceItem[itemId].seller.transfer(msg.value);
+        uint256 fee = getMarketplaceFee(msg.value);
+        uint256 sellerReward = getSellerReward(msg.value);
+
+        require(
+            sellerReward > fee && sellerReward + fee == msg.value,
+            "Fee is incorrect"
+        );
+
+        _owner.transfer(fee);
+        _idToMarketplaceItem[itemId].seller.transfer(sellerReward);
 
         if (nftContract.supportsInterface(type(IERC1155).interfaceId)) {
             IERC1155(nftContract).safeTransferFrom(

@@ -35,7 +35,7 @@ const MainLayout = ({ children, className, authorized }) => {
           onDeactivate={deactivateWallet}
         />
         {authorized && (
-          <Alert content="Only ❄️ OpenSea NFT is currently supported" />
+          <Alert content="Only own and ❄️ OpenSea NFT are supported" />
         )}
       </div>
 
