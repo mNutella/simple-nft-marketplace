@@ -751,11 +751,11 @@ contract("SimpleNFT & SimpleMarketplace", async function (accounts) {
 ///
 /// truffle console --network matic
 /// #nft contract: grant 'minter_role' to marketplace contract
-/// var nft = new web3.eth.Contract([{"inputs":[{"internalType":"bytes32","name":"role","type":"bytes32"},{"internalType":"address","name":"account","type":"address"}],"name":"hasRole","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"}, {"inputs":[{"internalType":"bytes32","name":"role","type":"bytes32"},{"internalType":"address","name":"account","type":"address"}],"name":"grantRole","outputs":[],"stateMutability":"nonpayable","type":"function"}], "0x322059a897647c4342177337E960232d10E874d6");
-/// nft.methods.grantRole("0x9f2df0fed2c77648de5860a4cc508cd0818c85b8b8a1ab4ceeef8d981c8956a6", "0x4a0289186149887C82f67f76d750E09d08Be7110").send({from: accounts[0]}).then(console.log);
-/// nft.methods.hasRole("0x9f2df0fed2c77648de5860a4cc508cd0818c85b8b8a1ab4ceeef8d981c8956a6", "0x4a0289186149887C82f67f76d750E09d08Be7110").call({from: accounts[0]}).then(console.log);
+/// var nft = new web3.eth.Contract([{"inputs":[{"internalType":"bytes32","name":"role","type":"bytes32"},{"internalType":"address","name":"account","type":"address"}],"name":"hasRole","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"}, {"inputs":[{"internalType":"bytes32","name":"role","type":"bytes32"},{"internalType":"address","name":"account","type":"address"}],"name":"grantRole","outputs":[],"stateMutability":"nonpayable","type":"function"}], "0x9c9E0C549a8c1a2389BA11100c6D1A54CeF5abd0");
+/// nft.methods.grantRole("0x9f2df0fed2c77648de5860a4cc508cd0818c85b8b8a1ab4ceeef8d981c8956a6", "0x20Cf33F340bB949e6d3a210b0109edb5D6DbaaC0").send({from: accounts[0]}).then(console.log);
+/// nft.methods.hasRole("0x9f2df0fed2c77648de5860a4cc508cd0818c85b8b8a1ab4ceeef8d981c8956a6", "0x20Cf33F340bB949e6d3a210b0109edb5D6DbaaC0").call({from: accounts[0]}).then(console.log);
 /// #marketplace contract: set default nft contract
-/// var market = new web3.eth.Contract([{"inputs":[{"internalType":"address","name":"simpeNFT","type":"address"}],"name":"setSimpleNFTAddress","outputs":[],"stateMutability":"nonpayable","type":"function"}], "0x4a0289186149887C82f67f76d750E09d08Be7110");
-/// market.methods.setSimpleNFTAddress("0x322059a897647c4342177337E960232d10E874d6").send({from: accounts[0]}).then(console.log);
+/// var market = new web3.eth.Contract([{"inputs":[{"internalType":"address","name":"simpeNFT","type":"address"}],"name":"setSimpleNFTAddress","outputs":[],"stateMutability":"nonpayable","type":"function"}], "0x20Cf33F340bB949e6d3a210b0109edb5D6DbaaC0");
+/// market.methods.setSimpleNFTAddress("0x9c9E0C549a8c1a2389BA11100c6D1A54CeF5abd0").send({from: accounts[0]}).then(console.log);
 ///
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

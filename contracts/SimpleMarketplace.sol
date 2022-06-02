@@ -164,21 +164,23 @@ contract SimpleMarketplace is
         payable
         nonReentrant
     {
-        uint256 price = _idToMarketplaceItem[itemId].price;
-        uint256 tokenId = _idToMarketplaceItem[itemId].tokenId;
+        // TEMP: remove func parameter `nftContract`
+        nftContract = _idToMarketplaceItem[itemId].nftContract;
 
+        bool notSold = !_idToMarketplaceItem[itemId].sold;
+        require(notSold, "NFT is already sold");
+
+        uint256 price = _idToMarketplaceItem[itemId].price;
         require(
             msg.value == price,
             "Please submit the asking price in order to complete the purchase"
         );
-        require(
-            msg.sender != _idToMarketplaceItem[itemId].seller,
-            "You are the seller of this item"
-        );
+
+        address seller = _idToMarketplaceItem[itemId].seller;
+        require(msg.sender != seller, "You are the seller of this item");
 
         uint256 fee = getMarketplaceFee(msg.value);
         uint256 sellerReward = getSellerReward(msg.value);
-
         require(
             sellerReward > fee && sellerReward + fee == msg.value,
             "Fee is incorrect"
@@ -191,7 +193,7 @@ contract SimpleMarketplace is
             IERC1155(nftContract).safeTransferFrom(
                 address(this),
                 msg.sender,
-                tokenId,
+                _idToMarketplaceItem[itemId].tokenId,
                 1,
                 ""
             );
@@ -199,23 +201,25 @@ contract SimpleMarketplace is
             IERC721(nftContract).transferFrom(
                 address(this),
                 msg.sender,
-                tokenId
+                _idToMarketplaceItem[itemId].tokenId
             );
         }
 
         _idToMarketplaceItem[itemId].owner = payable(msg.sender);
         _idToMarketplaceItem[itemId].sold = true;
-        _marketplaceItemUrls[_idToMarketplaceItem[itemId].uri] = false;
+
+        string memory url = _idToMarketplaceItem[itemId].uri;
+        _marketplaceItemUrls[url] = false;
 
         _soldItems.increment();
 
         emit MarketplaceItemChanged(
             itemId,
             nftContract,
-            tokenId,
+            _idToMarketplaceItem[itemId].tokenId,
             address(this),
             msg.sender,
-            price,
+            msg.value,
             true
         );
     }
