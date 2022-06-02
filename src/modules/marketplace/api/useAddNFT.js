@@ -95,10 +95,7 @@ export function useAddNFT() {
     await sendAddMarketplaceNFT(
       contractAddress,
       tokenId,
-      utils.parseEther(price),
-      {
-        value: utils.parseEther(process.env.NEXT_PUBLIC_MARKETPLACE_FEE),
-      }
+      utils.parseEther(price)
     );
   };
 
