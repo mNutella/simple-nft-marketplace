@@ -1,6 +1,6 @@
-This is a simple boilerplate for an NFT marketplace (Ethereum/Polygon).
+This is the simple NFT marketplace (Ethereum/Polygon).
 
-Only _own_ and _frozen_ OpenSea NFT are supported.
+Only _own_ and _'frozen' OpenSea NFT_ are supported.
 
 ## Getting Started
 
